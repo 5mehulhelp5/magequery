@@ -1,4 +1,6 @@
-# magequery for Zed
+# magequery LSP for Zed
+
+Published on the Zed extension registry as **magequery LSP** (`magequery-lsp`).
 
 Magento 2 wiring answers inside Zed, powered by the
 [magequery](https://github.com/cresset-tools/magequery) language server: doctor
@@ -55,5 +57,13 @@ extension downloads and runs remains EUPL-1.2.
 
 Zed extensions are distributed via a PR to
 [zed-industries/extensions](https://github.com/zed-industries/extensions): add this
-repository as a submodule and an `extensions.toml` entry with
+repository as a submodule at `extensions/magequery-lsp` (the directory must be named
+after the extension id) and an `extensions.toml` entry keyed `[magequery-lsp]` with
 `path = "editors/zed"` (monorepo layout), then bump the version there for each release.
+
+```toml
+[magequery-lsp]
+submodule = "extensions/magequery-lsp"
+path = "editors/zed"
+version = "0.1.0"
+```

@@ -234,7 +234,8 @@ config paths stay with your PHP server).
 
 - **VS Code** — the extension in [`editors/vscode`](editors/vscode); it finds `magequery` on
   PATH or downloads the release binary itself.
-- **Zed** — the extension in [`editors/zed`](editors/zed), same binary resolution.
+- **Zed** — the extension in [`editors/zed`](editors/zed) (registry id `magequery-lsp`),
+  same binary resolution.
 - **Anything else** — point your editor's LSP client at `magequery lsp` for PHP and XML files.
 
 Open buffers overlay the checkout, so diagnostics and answers follow your unsaved edits as

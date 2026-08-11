@@ -1,5 +1,10 @@
-id = "magequery"
-name = "magequery"
+# The id is suffixed `-lsp` per Zed's publishing prerequisites: the registry keeps the
+# top-level namespace for languages and popular tooling, so an extension whose whole job
+# is starting a language server has to say so in its id (`maho-lsp`, `odoo-lsp`, …). It
+# is permanent once published — the submodule directory and the `extensions.toml` key in
+# zed-industries/extensions must match it.
+id = "magequery-lsp"
+name = "magequery LSP"
 description = "Magento 2 wiring answers from magequery: doctor diagnostics, go-to-definition and hover in di.xml/events.xml, reverse-DI references."
 version = "0.1.0"
 schema_version = 1

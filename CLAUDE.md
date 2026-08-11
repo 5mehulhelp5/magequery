@@ -1751,6 +1751,15 @@ values (structural), theme layout files outside module dirs, and block names in 
   language, alongside the primary server). PATH first, else `latest_github_release` +
   `download_file`, one directory per version, older versions swept. Published via PR to
   zed-industries/extensions (submodule + `path = "editors/zed"` for the monorepo).
+  **Registry id is `magequery-lsp`** (name "magequery LSP"), *not* the bare tool name:
+  the publishing prerequisites keep the top-level namespace for languages and popular
+  tooling, so a language-server extension must carry an LSP-ish suffix (`maho-lsp`,
+  `odoo-lsp`, `schemalock-lsp` — the review on PR
+  https://github.com/zed-industries/extensions/pull/6783 asked for exactly this). The id
+  is **permanent once published**, and the submodule directory (`extensions/magequery-lsp`)
+  plus the `extensions.toml` key must match it. The *language server* id inside
+  extension.toml stays `magequery` — that's the settings key (`"lsp": {"magequery": …}`)
+  and the binary's own name; only the extension id is namespaced.
   **MIT-licensed, deliberately unlike the repo's EUPL-1.2**: the Zed registry validates
   the extension *directory's* LICENSE (verified in their `package-extensions.js`:
   candidates come from `join(submodule, path)`) against an allowlist — Apache-2.0,
