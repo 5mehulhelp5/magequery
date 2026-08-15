@@ -1,6 +1,7 @@
 # magequery LSP for Zed
 
-Published on the Zed extension registry as **magequery LSP** (`magequery-lsp`).
+Live on the Zed extension registry as **magequery LSP** (`magequery-lsp`) — install it from
+`zed: extensions` in the command palette.
 
 Magento 2 wiring answers inside Zed, powered by the
 [magequery](https://github.com/cresset-tools/magequery) language server: doctor
@@ -43,10 +44,6 @@ targeting `wasm32-wasip2` — install that target first or the compile fails
 rustup target add wasm32-wasip2
 ```
 
-Until a magequery release with the `lsp` subcommand is on GitHub, the binary must also
-be on PATH (`cargo install --path crates/magequery-cli --locked` from this repo) — the
-extension's release-download fallback would fetch one without it.
-
 ## License
 
 This extension shim is MIT-licensed (the Zed extension registry requires a license from
@@ -56,10 +53,10 @@ extension downloads and runs remains EUPL-1.2.
 ## Publishing
 
 Zed extensions are distributed via a PR to
-[zed-industries/extensions](https://github.com/zed-industries/extensions): add this
-repository as a submodule at `extensions/magequery-lsp` (the directory must be named
-after the extension id) and an `extensions.toml` entry keyed `[magequery-lsp]` with
-`path = "editors/zed"` (monorepo layout), then bump the version there for each release.
+[zed-industries/extensions](https://github.com/zed-industries/extensions). That registration
+is done — this repository is a submodule at `extensions/magequery-lsp` (the directory must be
+named after the extension id) with an `extensions.toml` entry keyed `[magequery-lsp]` and
+`path = "editors/zed"` (monorepo layout):
 
 ```toml
 [magequery-lsp]
@@ -67,3 +64,6 @@ submodule = "extensions/magequery-lsp"
 path = "editors/zed"
 version = "0.1.0"
 ```
+
+Each subsequent release is another PR there: bump `version` in both that entry and
+`extension.toml`, and point the submodule at the new commit.
