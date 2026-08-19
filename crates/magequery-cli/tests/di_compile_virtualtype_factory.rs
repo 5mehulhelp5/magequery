@@ -1,5 +1,15 @@
 //! `di compile` and `…Factory`-named virtual types (issue #96).
 //!
+//! Not built on Windows. `di compile` writes Magento's own metadata filenames,
+//! which join the cache scope with `|` — `generated/metadata/global|primary|
+//! plugin-list.php`. `|` is a reserved character in a Windows filename, so the
+//! whole command dies with os error 123 ("The filename, directory name, or
+//! volume label syntax is incorrect") before it writes anything, and byte
+//! parity with `setup:di:compile` is what forbids renaming those files. A test
+//! here would assert that unrelated failure, not the behaviour it is about.
+//! This is the first test in the suite to run a real compile, which is why CI
+//! had never surfaced it — every other CLI test skips without a store.
+//!
 //! Generation is served by the autoloader on the compile PROCESS's
 //! ObjectManager, whose config holds the GLOBAL virtual types only. So the
 //! scope a `…Factory` virtualType is declared in decides whether a real
@@ -16,8 +26,10 @@
 //!
 //! The `mg-install-310` oracle backs all three: 36 `…Factory` virtualTypes,
 //! and `setup:di:compile` wrote a file for exactly the 2 declared in an
-//! `etc/adminhtml/di.xml`. These fixtures need no store — they build their own
-//! two-class Magento root, so they run everywhere the workspace does.
+//! `etc/adminhtml/di.xml`. These fixtures need no store of their own — they
+//! build a two-class Magento root and compile that.
+
+#![cfg(not(windows))]
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
