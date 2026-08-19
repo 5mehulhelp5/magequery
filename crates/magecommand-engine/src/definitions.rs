@@ -659,6 +659,14 @@ fn internal_iface_parents(name: &str) -> Option<&'static [&'static str]> {
     })
 }
 
+/// Whether the name is one of the internal PHP classes this module models —
+/// the same table [`internal_ctor`] keys on. Used by the code generator to
+/// tell a genuinely built-in global-namespace name (`stdClass`) from a
+/// Magento virtual type that merely lives in the global namespace.
+pub fn is_internal_class(fqcn: &str) -> bool {
+    internal_ctor(fqcn).is_some()
+}
+
 /// Constructor signatures of internal PHP classes, as reflection reports
 /// them — inherited by userland subclasses that declare none of their own.
 /// Empty slice = constructor-less (or a constructor Magento never resolves

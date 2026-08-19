@@ -1745,8 +1745,11 @@ fn compile(
     let modules = magento.modules();
     let enabled = modules.iter().filter(|m| m.enabled).count();
 
-    // The config-derived half of the work plan. The PHP-scan-derived half
-    // (factories/proxies referenced in code) arrives with the extractor (M1).
+    // The work plan reports the config-derived DECLARATION COUNTS only. The
+    // compile itself also scans the PHP universe (op 4, PhpScanner: factories
+    // and proxies named in constructor signatures) — that half has no cheap
+    // count to print without doing the scan, so it is summarized by the file
+    // count at the end rather than here.
     const AREAS: [Area; 7] = [
         Area::Global,
         Area::Frontend,
@@ -1789,7 +1792,7 @@ fn compile(
             modules.len(),
             enabled
         );
-        println!("work plan (config-derived; PHP-scan half lands with the extractor):");
+        println!("work plan — config-derived declarations (the PHP scan adds more):");
         for (area, s) in &summaries {
             println!(
                 "  {:<12} {:>4} preferences · {:>3} virtual types · {:>4} plugin decls on {:>3} targets · {:>4} argument decls",

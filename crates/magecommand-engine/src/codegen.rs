@@ -562,11 +562,7 @@ impl<'a> Codegen<'a> {
     /// dir), so they don't count.
     fn exists_as_source(&self, name: &str) -> bool {
         if !name.contains('\\') {
-            // Global-namespace names are PHP built-ins in practice
-            // (DOMDocument, ArrayObject) — loadable, UNLESS the name carries
-            // a generatable suffix that no built-in owns (DOMDocumentFactory
-            // is a generated artifact over the built-in DOMDocument).
-            return classify(name).is_none() || is_suffixed_builtin(name);
+            return bare_name_loadable(name);
         }
         if let Some(rec) = self.defs.get(name) {
             return !self.defs.generated_classes.contains(&rec.meta.fqcn);
@@ -584,7 +580,7 @@ impl<'a> Codegen<'a> {
     fn name_is_class(&self, name: &str) -> bool {
         let name = name.trim_start_matches('\\');
         if !name.contains('\\') {
-            return classify(name).is_none() || is_suffixed_builtin(name);
+            return bare_name_loadable(name);
         }
         if let Some(rec) = self.defs.get(name) {
             if !self.defs.generated_classes.contains(&rec.meta.fqcn) {
@@ -989,25 +985,25 @@ pub fn generate_code(
     //
     // The area files (fixed + custom) are prebuilt and passed in — the same set
     // main.rs writes as `<code>.php` metadata — so this sweep never rebuilds
-    // them. The `isConcrete` runs in each area's OM context, so a name that is a
-    // virtualType in this area is skipped by the generator
-    // (`shouldSkipGeneration`) — no file. The area's vtype names are exactly the
-    // keys of its instanceTypes. Without this, an area-scoped vtype whose name
-    // ends in a generatable suffix (e.g. the graphql vtype
-    // `amPromoQuoteItemFactory`) leaks a bogus Factory: it isn't in the
-    // global-only vtype skip set, and its bare source `amPromoQuoteItem` reads
-    // as a PHP built-in, so `ensure` emits it.
+    // them. An AREA-scoped virtualType is NOT skipped here: `class_exists` is
+    // served by the generation autoloader registered on the compile PROCESS's
+    // ObjectManager, whose config carries the GLOBAL virtualTypes only — the
+    // per-area config the Reader is computing is data it returns, never the
+    // container the autoloader consults. So a name that is a virtualType only
+    // in some area reaches `Generator::generateClass` as an unknown
+    // `…Factory`, loads its source class, and gets a REAL factory written over
+    // it (`Codegen::ensure` still skips the global vtypes, which the process
+    // OM does know). Verified on the oracle: `mg-install-310` declares 36
+    // `…Factory` virtualTypes, and the archive holds a file for exactly the 2
+    // declared in an `etc/adminhtml/di.xml` — none of the 34 global ones.
     for ca in area_files {
         let file = &ca.file;
-        let area_vtypes: HashSet<&str> =
-            file.instance_types.iter().map(|(k, _)| k.as_str()).collect();
         let names: Vec<String> = file
             .arguments
             .keys()
             .cloned()
             .chain(file.instance_types.iter().map(|(_, v)| v.clone()))
             .filter(|n| !n.ends_with("\\Proxy") && !n.ends_with("\\Interceptor"))
-            .filter(|n| !area_vtypes.contains(n.as_str()))
             .collect();
         cg.ensure_all(names.iter().map(String::as_str));
     }
@@ -1106,6 +1102,30 @@ pub fn generate_code(
 /// generation targets.
 fn is_suffixed_builtin(name: &str) -> bool {
     matches!(name, "ReflectionExtension" | "ReflectionZendExtension")
+}
+
+/// `class_exists` on a name with no namespace separator. Such a name is a PHP
+/// built-in in practice (DOMDocument, ArrayObject) — loadable, UNLESS it
+/// carries a generatable suffix that no built-in owns (DOMDocumentFactory is a
+/// generated artifact over the built-in DOMDocument).
+///
+/// The exception is a lowercase-initial name. PHP declares its built-ins
+/// PascalCase, while Magento's convention for an UNNAMESPACED virtual type is
+/// exactly the opposite — `amPromoQuoteItem`, `uiComponentConfig`,
+/// `robotsResultPage`. A virtual type is a config entry, not a class, so
+/// nothing loads it: `Generator::generateClass` fails to load the source and
+/// writes no file. Modelling that is what keeps a bogus `…Factory` off disk
+/// for an area-scoped vtype like the graphql `amPromoQuoteItemFactory`, which
+/// the area sweep above now (correctly) offers up for generation. The handful
+/// of genuinely lowercase built-ins (`stdClass`, `php_user_filter`) are in the
+/// internal-class table and stay loadable.
+fn bare_name_loadable(name: &str) -> bool {
+    if name.starts_with(|c: char| c.is_ascii_lowercase())
+        && !crate::definitions::is_internal_class(name)
+    {
+        return false;
+    }
+    classify(name).is_none() || is_suffixed_builtin(name)
 }
 
 fn factory_param_candidate(ty: &str) -> Option<&str> {
