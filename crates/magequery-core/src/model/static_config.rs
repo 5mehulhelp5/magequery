@@ -224,6 +224,51 @@ pub struct CatalogAttributeGroup {
     pub attributes: Vec<CatalogAttribute>,
 }
 
+/// One `<aspect>` of a fieldset field: the copy operation that carries it across, and the
+/// destination field when it is renamed on the way.
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+pub struct FieldsetAspect {
+    /// `to_order`, `to_order_item`, `to_quote`, `to_cm`, … — the copy Magento performs.
+    pub name: String,
+    /// `targetField=`: the destination field, when it differs from the source field name.
+    pub target_field: Option<String>,
+    pub source: Source,
+}
+
+/// One field of a fieldset, with every aspect declared for it (across modules).
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+pub struct FieldsetField {
+    pub name: String,
+    /// Sorted by aspect name; each keeps the declaring module's `Source`.
+    pub aspects: Vec<FieldsetAspect>,
+    /// The module and line that first declared the field.
+    pub source: Source,
+}
+
+/// An `etc/fieldset.xml` fieldset — Magento's object-copy map
+/// (`Magento\Framework\DataObject\Copy`): which fields are carried from one entity to
+/// another and under which aspect, e.g. `sales_convert_quote_item` + aspect
+/// `to_order_item` is what copies a quote item's field onto the order item. Merged across
+/// modules, so a third-party field appears beside core's with its own provenance — the
+/// "why isn't my custom field on the order item" surface.
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+pub struct Fieldset {
+    pub id: String,
+    /// `<scope id=>` — `global` in practice.
+    pub scope: String,
+    /// Sorted by field name.
+    pub fields: Vec<FieldsetField>,
+}
+
+/// One place a field name occurs across all fieldsets — the reverse lookup behind
+/// `magequery fieldset <field>`.
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+pub struct FieldsetFieldHit {
+    pub fieldset: String,
+    pub scope: String,
+    pub field: FieldsetField,
+}
+
 /// A theme's override of an email template file.
 #[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
 pub struct EmailTemplateOverride {
@@ -352,6 +397,34 @@ pub struct TemplateUsage {
     pub handle: String,
     pub block: String,
     pub class: Option<ClassName>,
+    pub source: Source,
+}
+
+/// How a PHP class binds a template, bypassing layout XML entirely.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize)]
+#[non_exhaustive]
+pub enum PhpTemplateBinding {
+    /// `protected $_template = '...'` — a block's compiled-in default template.
+    TemplateProperty,
+    /// A `setTemplate('...')` call.
+    SetTemplate,
+    /// The reference occurs in PHP but in neither binding form (a constant, an array
+    /// of templates, an argument passed on). Reported, not interpreted.
+    Mention,
+}
+
+/// One PHP occurrence of a template reference. Layout XML is only half the story: a
+/// block may hard-bind its template in PHP, which makes a template with zero layout
+/// usages perfectly live. Found by scanning the enabled modules' PHP for the full
+/// `Vendor_Module::path.phtml` reference **and** the bare relative path (the short form
+/// a block inside the owning module may use), so the count is honest either way.
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
+pub struct TemplatePhpUsage {
+    pub binding: PhpTemplateBinding,
+    /// The class declared in the file, when its namespace could be derived.
+    pub class: Option<ClassName>,
+    /// The matched text as written (full reference or short relative path).
+    pub matched: String,
     pub source: Source,
 }
 
