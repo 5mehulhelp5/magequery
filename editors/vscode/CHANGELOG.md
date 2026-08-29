@@ -5,6 +5,13 @@ themselves live in the `magequery` server binary (which the extension downloads 
 keeps current); this log covers the extension client and the capabilities a current
 server unlocks.
 
+## 0.2.1
+
+- **Fixed the server download.** The release archives wrap their contents in a
+  `magequery-<triple>/` directory on macOS and Linux, so the extension looked for the
+  binary one level too high and the download failed outright. It now finds the binary in
+  either layout (the Windows zip is flat).
+
 ## 0.2.0
 
 - **`.phtml` templates are now analyzed** — override/usage code lenses, hover, and

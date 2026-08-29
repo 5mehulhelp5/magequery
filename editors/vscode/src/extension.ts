@@ -302,7 +302,19 @@ async function download(context: vscode.ExtensionContext, tag: string): Promise<
     );
   });
   await fs.promises.rm(archive, { force: true });
-  // cargo-dist archives contain the bare binary (auto-includes = false).
+
+  // dist wraps the tarball in a `magequery-<triple>/` directory but leaves the Windows zip
+  // flat, so the binary lands in one of two places. Lift it out of the wrapper (and drop
+  // the rest of the archive with it) so `target` is where downloadTarget() says it is.
+  const wrapper = path.join(dir, `magequery-${triple}`);
+  const wrapped = path.join(wrapper, path.basename(target));
+  if (!fs.existsSync(target)) {
+    if (!fs.existsSync(wrapped)) {
+      throw new Error(`${url} contained no ${path.basename(target)}`);
+    }
+    await fs.promises.rename(wrapped, target);
+  }
+  await fs.promises.rm(wrapper, { recursive: true, force: true });
   if (process.platform !== "win32") {
     await fs.promises.chmod(target, 0o755);
   }

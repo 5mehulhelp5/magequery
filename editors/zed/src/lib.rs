@@ -7,6 +7,19 @@ struct MagequeryExtension {
     cached_binary_path: Option<String>,
 }
 
+/// Where the extracted binary actually sits under `version_dir`, or `None` if it isn't
+/// there yet. dist wraps the tarball in a `magequery-<triple>/` directory but leaves the
+/// Windows zip flat, so the archive is one shape on Unix and another on Windows —
+/// probe both rather than encode the difference.
+fn extracted_binary(version_dir: &str, triple: &str, binary_name: &str) -> Option<String> {
+    [
+        format!("{version_dir}/magequery-{triple}/{binary_name}"),
+        format!("{version_dir}/{binary_name}"),
+    ]
+    .into_iter()
+    .find(|path| std::fs::metadata(path).is_ok_and(|meta| meta.is_file()))
+}
+
 impl MagequeryExtension {
     fn server_path(&mut self, id: &LanguageServerId, worktree: &zed::Worktree) -> Result<String> {
         // A user-installed binary wins: same resolution order as the VS Code client.
@@ -55,26 +68,32 @@ impl MagequeryExtension {
             zed::Os::Windows => "magequery.exe",
             _ => "magequery",
         };
-        let binary_path = format!("{version_dir}/{binary_name}");
 
-        if std::fs::metadata(&binary_path).is_err() {
-            zed::set_language_server_installation_status(
-                id,
-                &zed::LanguageServerInstallationStatus::Downloading,
-            );
-            zed::download_file(&asset.download_url, &version_dir, file_type)?;
-            zed::make_file_executable(&binary_path)?;
+        let binary_path = match extracted_binary(&version_dir, triple, binary_name) {
+            Some(path) => path,
+            None => {
+                zed::set_language_server_installation_status(
+                    id,
+                    &zed::LanguageServerInstallationStatus::Downloading,
+                );
+                zed::download_file(&asset.download_url, &version_dir, file_type)?;
 
-            // Sweep older version directories.
-            if let Ok(entries) = std::fs::read_dir(".") {
-                for entry in entries.flatten() {
-                    let name = entry.file_name().to_string_lossy().to_string();
-                    if name != version_dir && name.starts_with("magequery-v") {
-                        let _ = std::fs::remove_dir_all(entry.path());
+                // Sweep older version directories.
+                if let Ok(entries) = std::fs::read_dir(".") {
+                    for entry in entries.flatten() {
+                        let name = entry.file_name().to_string_lossy().to_string();
+                        if name != version_dir && name.starts_with("magequery-v") {
+                            let _ = std::fs::remove_dir_all(entry.path());
+                        }
                     }
                 }
+
+                let path = extracted_binary(&version_dir, triple, binary_name)
+                    .ok_or_else(|| format!("{asset_name} contained no {binary_name}"))?;
+                zed::make_file_executable(&path)?;
+                path
             }
-        }
+        };
 
         self.cached_binary_path = Some(binary_path.clone());
         Ok(binary_path)

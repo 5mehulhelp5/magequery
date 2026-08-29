@@ -6,7 +6,7 @@
 id = "magequery-lsp"
 name = "magequery LSP"
 description = "Magento 2 wiring answers from magequery: doctor diagnostics, go-to-definition and hover in di.xml/events.xml, reverse-DI references."
-version = "0.1.0"
+version = "0.1.1"
 schema_version = 1
 authors = ["Jelle Besseling <jelle@pingiun.com>"]
 repository = "https://github.com/cresset-tools/magequery"
