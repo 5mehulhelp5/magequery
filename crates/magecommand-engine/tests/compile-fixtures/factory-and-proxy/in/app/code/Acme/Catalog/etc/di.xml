@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config>
+    <type name="Acme\Catalog\Model\Importer">
+        <arguments>
+            <argument name="reader" xsi:type="object">Acme\Catalog\Model\Reader\Proxy</argument>
+        </arguments>
+    </type>
+</config>

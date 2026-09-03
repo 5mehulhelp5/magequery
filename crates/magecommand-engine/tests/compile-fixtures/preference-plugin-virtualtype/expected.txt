@@ -1,0 +1,612 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Shop/Model/Checkout/Interceptor.php =====
+<?php
+namespace Acme\Shop\Model\Checkout;
+
+/**
+ * Interceptor class for @see \Acme\Shop\Model\Checkout
+ */
+class Interceptor extends \Acme\Shop\Model\Checkout implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(string $label = 'default', int $retries = 1, array $flags = [])
+    {
+        $this->___init();
+        parent::__construct($label, $retries, $flags);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function place(string $cartId, ?int $retries = null): bool
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'place');
+        return $pluginInfo ? $this->___callPlugins('place', func_get_args(), $pluginInfo) : parent::place($cartId, $retries);
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeShopStrictCheckout' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'strict',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Model\\Checkout\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'default',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Plugin\\Audit' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+    'Acme\\Shop\\Model\\Checkout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => true,
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeShopStrictCheckout' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'strict',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Model\\Checkout\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'default',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Plugin\\Audit' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+    'Acme\\Shop\\Model\\Checkout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => true,
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeShopStrictCheckout' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'strict',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Model\\Checkout\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'default',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Plugin\\Audit' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+    'Acme\\Shop\\Model\\Checkout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => true,
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Shop\\Model\\Checkout' => 
+    array (
+      'acme_shop_audit' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Shop\\Plugin\\Audit',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => NULL,
+    'Acme\\Shop\\Model\\Checkout' => 
+    array (
+      'acme_shop_audit' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Shop\\Plugin\\Audit',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Shop\\Model\\Checkout_place___self' => 
+    array (
+      1 => 
+      array (
+        0 => 'acme_shop_audit',
+      ),
+      4 => 
+      array (
+        0 => 'acme_shop_audit',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeShopStrictCheckout' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'strict',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Model\\Checkout\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'default',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Plugin\\Audit' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+    'Acme\\Shop\\Model\\Checkout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => true,
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Shop\\Model\\Checkout' => 
+    array (
+      'acme_shop_audit' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Shop\\Plugin\\Audit',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => NULL,
+    'Acme\\Shop\\Model\\Checkout' => 
+    array (
+      'acme_shop_audit' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Shop\\Plugin\\Audit',
+      ),
+    ),
+    'AcmeShopStrictCheckout' => 
+    array (
+      'acme_shop_audit' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Shop\\Plugin\\Audit',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Shop\\Model\\Checkout_place___self' => 
+    array (
+      1 => 
+      array (
+        0 => 'acme_shop_audit',
+      ),
+      4 => 
+      array (
+        0 => 'acme_shop_audit',
+      ),
+    ),
+    'AcmeShopStrictCheckout_place___self' => 
+    array (
+      1 => 
+      array (
+        0 => 'acme_shop_audit',
+      ),
+      4 => 
+      array (
+        0 => 'acme_shop_audit',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeShopStrictCheckout' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'strict',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Model\\Checkout\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'default',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Plugin\\Audit' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+    'Acme\\Shop\\Model\\Checkout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => true,
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'AcmeShopStrictCheckout' => true,
+  'Acme\\Shop\\Model\\Checkout' => true,
+  'Acme\\Shop\\Model\\Checkout\\Interceptor' => false,
+  'Acme\\Shop\\Plugin\\Audit' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeShopStrictCheckout' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'strict',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Model\\Checkout\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'default',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Plugin\\Audit' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+    'Acme\\Shop\\Model\\Checkout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => true,
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeShopStrictCheckout' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'strict',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Model\\Checkout\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'default',
+      ),
+      'retries' => 
+      array (
+        '_v_' => '3',
+      ),
+      'flags' => 
+      array (
+        '_v_' => 
+        array (
+          'strict' => true,
+        ),
+      ),
+    ),
+    'Acme\\Shop\\Plugin\\Audit' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Shop\\Api\\CheckoutInterface' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+    'Acme\\Shop\\Model\\Checkout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => 'Acme\\Shop\\Model\\Checkout\\Interceptor',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeShopStrictCheckout' => true,
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

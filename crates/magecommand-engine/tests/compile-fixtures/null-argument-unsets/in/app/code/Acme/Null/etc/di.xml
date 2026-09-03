@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <type name="Acme\Null\Model\Consumer">
+        <arguments>
+            <!-- isset() is false for null, so ArgumentsResolver skips these
+                 entirely and default resolution stands: $dep is typed and gets
+                 its type injected (_i_), $plain keeps its own default. -->
+            <argument name="dep" xsi:type="null"/>
+            <argument name="plain" xsi:type="null"/>
+        </arguments>
+    </type>
+</config>

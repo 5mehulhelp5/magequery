@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config>
+    <extension_attributes for="Acme\Api\Api\Data\OrderInterface">
+        <attribute code="acme_gift_note" type="string"/>
+        <attribute code="acme_priority" type="int"/>
+    </extension_attributes>
+</config>

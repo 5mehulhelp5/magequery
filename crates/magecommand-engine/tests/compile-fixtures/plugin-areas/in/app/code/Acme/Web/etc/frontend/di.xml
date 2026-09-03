@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config>
+    <type name="Acme\Web\Model\Renderer">
+        <plugin name="acme_web_theme" type="Acme\Web\Plugin\Theme" sortOrder="20"/>
+    </type>
+</config>

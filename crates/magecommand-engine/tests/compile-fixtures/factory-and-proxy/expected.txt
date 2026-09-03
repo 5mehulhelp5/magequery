@@ -1,0 +1,767 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 18  findings: 0  unresolved: 0
+
+===== file: code/Acme/Catalog/Model/Reader/Proxy.php =====
+<?php
+namespace Acme\Catalog\Model\Reader;
+
+/**
+ * Proxy class for @see \Acme\Catalog\Model\Reader
+ */
+class Proxy extends \Acme\Catalog\Model\Reader implements \Magento\Framework\ObjectManager\NoninterceptableInterface
+{
+    /**
+     * Object Manager instance
+     *
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $_objectManager = null;
+
+    /**
+     * Proxied instance name
+     *
+     * @var string
+     */
+    protected $_instanceName = null;
+
+    /**
+     * Proxied instance
+     *
+     * @var \Acme\Catalog\Model\Reader
+     */
+    protected $_subject = null;
+
+    /**
+     * Instance shareability flag
+     *
+     * @var bool
+     */
+    protected $_isShared = null;
+
+    /**
+     * Proxy constructor
+     *
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param string $instanceName
+     * @param bool $shared
+     */
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $instanceName = '\\Acme\\Catalog\\Model\\Reader', $shared = true)
+    {
+        $this->_objectManager = $objectManager;
+        $this->_instanceName = $instanceName;
+        $this->_isShared = $shared;
+    }
+
+    /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['_subject', '_isShared', '_instanceName'];
+    }
+
+    /**
+     * Retrieve ObjectManager from global scope
+     */
+    public function __wakeup()
+    {
+        $this->_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    }
+
+    /**
+     * Clone proxied instance
+     */
+    public function __clone()
+    {
+        if ($this->_subject) {
+            $this->_subject = clone $this->_getSubject();
+        }
+    }
+
+    /**
+     * Debug proxied instance
+     */
+    public function __debugInfo()
+    {
+        return ['i' => $this->_subject];
+    }
+
+    /**
+     * Get proxied instance
+     *
+     * @return \Acme\Catalog\Model\Reader
+     */
+    protected function _getSubject()
+    {
+        if (!$this->_subject) {
+            $this->_subject = true === $this->_isShared
+                ? $this->_objectManager->get($this->_instanceName)
+                : $this->_objectManager->create($this->_instanceName);
+        }
+        return $this->_subject;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function read(int $limit): array
+    {
+        return $this->_getSubject()->read($limit);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return $this->_getSubject()->name();
+    }
+}
+
+===== file: code/Acme/Catalog/Model/RowFactory.php =====
+<?php
+namespace Acme\Catalog\Model;
+
+/**
+ * Factory class for @see \Acme\Catalog\Model\Row
+ */
+class RowFactory
+{
+    /**
+     * Object Manager instance
+     *
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $_objectManager = null;
+
+    /**
+     * Instance name to create
+     *
+     * @var string
+     */
+    protected $_instanceName = null;
+
+    /**
+     * Factory constructor
+     *
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param string $instanceName
+     */
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $instanceName = '\\Acme\\Catalog\\Model\\Row')
+    {
+        $this->_objectManager = $objectManager;
+        $this->_instanceName = $instanceName;
+    }
+
+    /**
+     * Create class instance with specified parameters
+     *
+     * @param array $data
+     * @return \Acme\Catalog\Model\Row
+     */
+    public function create(array $data = [])
+    {
+        return $this->_objectManager->create($this->_instanceName, $data);
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Catalog\\Model\\Importer' => 
+    array (
+      'reader' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\Reader\\Proxy',
+      ),
+      'rowFactory' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\RowFactory',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader' => 
+    array (
+      'source' => 
+      array (
+        '_v_' => 'file',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Reader',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Row' => 
+    array (
+      'data' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Catalog\\Model\\RowFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Row',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Catalog\\Model\\Importer' => 
+    array (
+      'reader' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\Reader\\Proxy',
+      ),
+      'rowFactory' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\RowFactory',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader' => 
+    array (
+      'source' => 
+      array (
+        '_v_' => 'file',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Reader',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Row' => 
+    array (
+      'data' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Catalog\\Model\\RowFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Row',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Catalog\\Model\\Importer' => 
+    array (
+      'reader' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\Reader\\Proxy',
+      ),
+      'rowFactory' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\RowFactory',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader' => 
+    array (
+      'source' => 
+      array (
+        '_v_' => 'file',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Reader',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Row' => 
+    array (
+      'data' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Catalog\\Model\\RowFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Row',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Catalog\\Model\\Importer' => 
+    array (
+      'reader' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\Reader\\Proxy',
+      ),
+      'rowFactory' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\RowFactory',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader' => 
+    array (
+      'source' => 
+      array (
+        '_v_' => 'file',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Reader',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Row' => 
+    array (
+      'data' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Catalog\\Model\\RowFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Row',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Catalog\\Model\\Importer' => 
+    array (
+      'reader' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\Reader\\Proxy',
+      ),
+      'rowFactory' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\RowFactory',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader' => 
+    array (
+      'source' => 
+      array (
+        '_v_' => 'file',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Reader',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Row' => 
+    array (
+      'data' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Catalog\\Model\\RowFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Row',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Catalog\\Model\\Importer' => false,
+  'Acme\\Catalog\\Model\\Reader' => false,
+  'Acme\\Catalog\\Model\\Reader\\Proxy' => false,
+  'Acme\\Catalog\\Model\\Row' => false,
+  'Acme\\Catalog\\Model\\RowFactory' => false,
+  'Magento\\Framework\\ObjectManager\\NoninterceptableInterface' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Catalog\\Model\\Importer' => 
+    array (
+      'reader' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\Reader\\Proxy',
+      ),
+      'rowFactory' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\RowFactory',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader' => 
+    array (
+      'source' => 
+      array (
+        '_v_' => 'file',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Reader',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Row' => 
+    array (
+      'data' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Catalog\\Model\\RowFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Row',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Catalog\\Model\\Importer' => 
+    array (
+      'reader' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\Reader\\Proxy',
+      ),
+      'rowFactory' => 
+      array (
+        '_i_' => 'Acme\\Catalog\\Model\\RowFactory',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader' => 
+    array (
+      'source' => 
+      array (
+        '_v_' => 'file',
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Reader',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Catalog\\Model\\Row' => 
+    array (
+      'data' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Catalog\\Model\\RowFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Catalog\\Model\\Row',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Catalog\\Model\\Reader\\Proxy' => true,
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

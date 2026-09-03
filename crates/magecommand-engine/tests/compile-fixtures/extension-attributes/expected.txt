@@ -1,0 +1,322 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 18  findings: 7  unresolved: 0
+
+===== file: code/Acme/Api/Api/Data/OrderExtension.php =====
+<?php
+namespace Acme\Api\Api\Data;
+
+/**
+ * Extension class for @see \Acme\Api\Api\Data\OrderInterface
+ */
+class OrderExtension extends \Magento\Framework\Api\AbstractSimpleObject implements OrderExtensionInterface
+{
+    /**
+     * @return string|null
+     */
+    public function getAcmeGiftNote()
+    {
+        return $this->_get('acme_gift_note');
+    }
+
+    /**
+     * @param string $acmeGiftNote
+     * @return $this
+     */
+    public function setAcmeGiftNote($acmeGiftNote)
+    {
+        $this->setData('acme_gift_note', $acmeGiftNote);
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAcmePriority()
+    {
+        return $this->_get('acme_priority');
+    }
+
+    /**
+     * @param int $acmePriority
+     * @return $this
+     */
+    public function setAcmePriority($acmePriority)
+    {
+        $this->setData('acme_priority', $acmePriority);
+        return $this;
+    }
+}
+
+===== file: code/Acme/Api/Api/Data/OrderExtensionInterface.php =====
+<?php
+namespace Acme\Api\Api\Data;
+
+/**
+ * ExtensionInterface class for @see \Acme\Api\Api\Data\OrderInterface
+ */
+interface OrderExtensionInterface extends \Magento\Framework\Api\ExtensionAttributesInterface
+{
+    /**
+     * @return string|null
+     */
+    public function getAcmeGiftNote();
+
+    /**
+     * @param string $acmeGiftNote
+     * @return $this
+     */
+    public function setAcmeGiftNote($acmeGiftNote);
+
+    /**
+     * @return int|null
+     */
+    public function getAcmePriority();
+
+    /**
+     * @param int $acmePriority
+     * @return $this
+     */
+    public function setAcmePriority($acmePriority);
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => NULL,
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => true,
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => NULL,
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => true,
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => NULL,
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => true,
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => NULL,
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => true,
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => NULL,
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => true,
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Api\\Api\\Data\\OrderExtension' => false,
+  'Acme\\Api\\Api\\Data\\OrderExtensionInterface' => false,
+  'Magento\\Framework\\Api\\AbstractSimpleObject' => false,
+  'Magento\\Framework\\Api\\ExtensionAttributesInterface' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => NULL,
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => true,
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => NULL,
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Api\\Api\\Data\\OrderExtension' => true,
+  ),
+);
+
+===== findings =====
+Acme\Api\Api\Data\OrderExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Api\Api\Data\OrderExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Api\Api\Data\OrderExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Api\Api\Data\OrderExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Api\Api\Data\OrderExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Api\Api\Data\OrderExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Api\Api\Data\OrderExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+
+===== unresolved =====

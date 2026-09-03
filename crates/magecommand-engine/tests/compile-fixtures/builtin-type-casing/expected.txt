@@ -1,0 +1,321 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Builtin/Model/Bag/Interceptor.php =====
+<?php
+namespace Acme\Builtin\Model\Bag;
+
+/**
+ * Interceptor class for @see \Acme\Builtin\Model\Bag
+ */
+class Interceptor extends \Acme\Builtin\Model\Bag implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct()
+    {
+        $this->___init();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count(): int
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'count');
+        return $pluginInfo ? $this->___callPlugins('count', func_get_args(), $pluginInfo) : parent::count();
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => NULL,
+    'Acme\\Builtin\\Plugin\\Watch' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 'Acme\\Builtin\\Model\\Bag\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => NULL,
+    'Acme\\Builtin\\Plugin\\Watch' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 'Acme\\Builtin\\Model\\Bag\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => NULL,
+    'Acme\\Builtin\\Plugin\\Watch' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 'Acme\\Builtin\\Model\\Bag\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 
+    array (
+      'acme_builtin_watch' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Builtin\\Plugin\\Watch',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'arrayaccess' => NULL,
+    'Countable' => NULL,
+    'ITERATOR' => NULL,
+    'Acme\\Builtin\\Model\\Bag' => 
+    array (
+      'acme_builtin_watch' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Builtin\\Plugin\\Watch',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Builtin\\Model\\Bag_count___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_builtin_watch',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => NULL,
+    'Acme\\Builtin\\Plugin\\Watch' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 'Acme\\Builtin\\Model\\Bag\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 
+    array (
+      'acme_builtin_watch' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Builtin\\Plugin\\Watch',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'arrayaccess' => NULL,
+    'Countable' => NULL,
+    'ITERATOR' => NULL,
+    'Acme\\Builtin\\Model\\Bag' => 
+    array (
+      'acme_builtin_watch' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Builtin\\Plugin\\Watch',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Builtin\\Model\\Bag_count___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_builtin_watch',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => NULL,
+    'Acme\\Builtin\\Plugin\\Watch' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 'Acme\\Builtin\\Model\\Bag\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Builtin\\Model\\Bag' => true,
+  'Acme\\Builtin\\Model\\Bag\\Interceptor' => false,
+  'Acme\\Builtin\\Plugin\\Watch' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => NULL,
+    'Acme\\Builtin\\Plugin\\Watch' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 'Acme\\Builtin\\Model\\Bag\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => NULL,
+    'Acme\\Builtin\\Plugin\\Watch' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Builtin\\Model\\Bag' => 'Acme\\Builtin\\Model\\Bag\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

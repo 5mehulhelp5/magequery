@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config>
+    <preference for="Acme\Shop\Api\CheckoutInterface" type="Acme\Shop\Model\Checkout"/>
+
+    <type name="Acme\Shop\Model\Checkout">
+        <arguments>
+            <argument name="label" xsi:type="string">default</argument>
+            <argument name="retries" xsi:type="number">3</argument>
+            <argument name="flags" xsi:type="array">
+                <item name="strict" xsi:type="boolean">true</item>
+            </argument>
+        </arguments>
+        <plugin name="acme_shop_audit" type="Acme\Shop\Plugin\Audit" sortOrder="20"/>
+    </type>
+
+    <virtualType name="AcmeShopStrictCheckout" type="Acme\Shop\Model\Checkout">
+        <arguments>
+            <argument name="label" xsi:type="string">strict</argument>
+        </arguments>
+    </virtualType>
+</config>

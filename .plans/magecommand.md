@@ -178,6 +178,15 @@ extension_attributes.xml), Repository/SearchResults, app action list (core's
 `actions` scan is the seed), area config. Detection rides on the aho-corasick scan.
 *Acceptance:* code section clean on mageos-lite, then commerce-store.
 
+M2/M3 also have an always-on net now, the same shape M1 grew:
+`crates/magecommand-engine/tests/compile-fixtures/` runs the whole compute over
+synthetic Magento roots under plain `cargo test`, no environment, and pins every
+emitted byte (`compile.rs`, bless with `MAGECOMMAND_COMPILE_BLESS=1`). The
+archive oracle stays the acceptance bar — it is the only thing that can say
+"matches real Magento" — but it needs the install and the archive, so it cannot
+run in CI. The fixtures catch an emitter changing shape; the oracle catches it
+being wrong.
+
 **M4 — CAS.** The store as designed above, layered under extraction and emission.
 *Acceptance:* warm re-run touches no stale content and is dominated by the di.xml
 merge; cold-cache output byte-identical to warm-cache output on both checkouts.

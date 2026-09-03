@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config>
+    <type name="Acme\Builtin\Model\Bag">
+        <plugin name="acme_builtin_watch" type="Acme\Builtin\Plugin\Watch" sortOrder="10"/>
+    </type>
+</config>
