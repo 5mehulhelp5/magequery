@@ -1398,6 +1398,7 @@ dependencies = [
  "memchr",
  "rayon",
  "serde_json",
+ "sha2",
 ]
 
 [[package]]

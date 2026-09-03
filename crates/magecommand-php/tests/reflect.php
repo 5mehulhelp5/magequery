@@ -73,6 +73,24 @@ while (($line = fgets(STDIN)) !== false) {
     try {
         $exists = class_exists($fqcn) || interface_exists($fqcn)
             || trait_exists($fqcn) || enum_exists($fqcn);
+        if (!$exists && is_file($file)) {
+            // The class isn't autoloadable from this root (test-suite classes
+            // aren't in composer's autoload maps). Load the file directly:
+            // its FQCN is our parser's claim, and dependency classes still
+            // resolve through the autoloader. A fatal on load is uncatchable
+            // — the harness restarts after the killer.
+            //
+            // In its own scope: Magento's `_files` fixtures assign top-level
+            // `$file`, `$line`, … and a plain `require_once` here would let
+            // them overwrite this loop's state (the shadow check below reads
+            // `$file`, and a clobbered `$fqcn` desynchronises the record from
+            // the request the harness is waiting on).
+            (static function (string $f): void {
+                require_once $f;
+            })($file);
+            $exists = class_exists($fqcn) || interface_exists($fqcn)
+                || trait_exists($fqcn) || enum_exists($fqcn);
+        }
         if (!$exists) {
             $rec['status'] = 'unloadable';
             echo json_encode($rec), "\n";

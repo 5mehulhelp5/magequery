@@ -1,0 +1,12 @@
+# magecommand-php corpus — pinned exception list.
+#
+# Zero-issue gate: every corpus file that produces a ParseIssue must be
+# listed here (path relative to tests/corpus/, one per line, then ` — `
+# followed by a one-line reason), and every listed file must actually
+# produce issues (both directions are enforced — a fixed entry must be
+# removed, never forgotten; the list may only shrink).
+#
+# A new entry is either a parser bug worth fixing (prefer that) or a
+# genuinely-unsupported construct whose decision is written up in NOTES.md.
+
+coverage/php84-hooks.php — one issue: a hook body on a PROMOTED constructor parameter cannot be consumed under the current parameter grammar, so the no-guess contract issues (plain hooks + asymmetric visibility parse clean; decision in NOTES.md "php84 property hooks")

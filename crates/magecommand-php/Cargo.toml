@@ -10,8 +10,10 @@ repository.workspace = true
 memchr = "2"
 
 # Dev-only: the differential harness (examples/differential.rs) shells out to
-# PHP reflection as ground truth and parses its JSON. The library itself
-# stays memchr-only.
+# PHP reflection as ground truth and parses its JSON. The corpus test's
+# manifest hashing (sha256 of the stable per-file fingerprint) is also
+# test-side only. The library itself stays memchr-only.
 [dev-dependencies]
 serde_json = "1"
 rayon = "1"
+sha2 = "0.10"

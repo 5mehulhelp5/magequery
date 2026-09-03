@@ -156,7 +156,14 @@ comparator reports today's (empty) output as 100% missing.
 **M1 — magecommand-php.** The parser as designed above, with the differential
 harness, fuzz targets, and benches. *Acceptance:* zero mismatches vs PHP reflection
 and zero unparseable files across both reference checkouts' full corpora (no
-fallback exists to hide behind); bench target met.
+fallback exists to hide behind); bench target met. The always-on net is now
+corpus-backed: `crates/magecommand-php/tests/corpus/` (18 hand-written files
+gated by `manifest.tsv`/`xfail.txt` — see `.plans/magecommand-php-corpus.md`)
+runs under plain `cargo test` in CI with no environment. A sampled-real-code
+tier was built alongside it and then removed: 79k lines to pin 504 declarations,
+and no construct the hand-written tier lacked. The big-install smoke and the
+reflection differential keep the breadth, against an install rather than in the
+repo; both runtime-skip when no install root is present.
 
 **M2 — Metadata parity.** Per-area compiled metadata (arguments, preferences,
 instanceTypes, shared) in Magento's exact serialized shape, from core's merged

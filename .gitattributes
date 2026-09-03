@@ -3,3 +3,8 @@
 # never EOL-convert it at checkout, or Windows CI sees CRLF where the goldens
 # and every other platform see LF.
 crates/magecommand-less/tests/fixtures/less-testdata/** -text
+
+# The magecommand-php corpus is byte-pinned: manifest.tsv hashes the exact
+# file bytes (sha256 column), so EOL conversion at checkout would fail the
+# corpus_gate test on Windows.
+crates/magecommand-php/tests/corpus/** -text

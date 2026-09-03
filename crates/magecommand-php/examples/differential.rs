@@ -1,13 +1,32 @@
 //! Differential harness: prove the parser against PHP reflection.
 //!
-//! Parses every PHP file in a real checkout, then asks PHP itself (via
-//! `bougie run php tests/reflect.php` inside the store) to reflect every
-//! declaration we found, and diffs the two views: kind, flags, parent,
+//! Parses a pool of PHP files, then asks PHP itself (via
+//! `bougie run php tests/reflect.php` inside a Magento checkout) to reflect
+//! every declaration we found, and diffs the two views: kind, flags, parent,
 //! interfaces, methods, signatures, types (canonical form), constants, enum
 //! cases. PHP runs only here, in test infrastructure — never in the tool.
 //!
+//! The pool is a real Magento install — a root as the first argument, or
+//! `MAGECOMMAND_CORPUS`. There is no default: this walks a 685 MB tree.
+//! `MAGECOMMAND_DIFF_ROOT` overrides the reflection root when it differs
+//! from the pool.
+//!
+//! It is deliberately NOT pointed at `tests/corpus/`. That corpus is
+//! synthetic and written to be *parsed*, not loaded: files reference parents
+//! and traits that do not exist (`class_exists` shims extend a missing
+//! dependency on purpose), and PHP cannot reflect a class whose parent is
+//! undefined — it fatals. Reflection ground truth needs real, loadable code.
+//! The parser's net over the corpus is `tests/corpus.rs`; this is its net
+//! over reality.
+//!
+//! Files are presented to PHP at the path we parsed, so the `realpath`
+//! shadowing check compares like with like. Stays a non-CI affordance: it
+//! needs bougie + PHP.
+//!
 //! ```sh
-//! cargo run --release -p magecommand-php --example differential [-- <root>]
+//! cargo run --release -p magecommand-php --example differential -- /home/jelle/mg-install-310
+//! MAGECOMMAND_CORPUS=/home/jelle/mg-install-310 \
+//!   cargo run --release -p magecommand-php --example differential
 //! ```
 
 use std::collections::BTreeMap;
@@ -23,16 +42,31 @@ use serde_json::Value;
 const BATCH: usize = 8000;
 
 fn main() {
-    let root = std::env::args()
+    // No default root: a hardcoded one runs the wrong install silently, and
+    // a mistyped one used to fall through to it. Both are errors here.
+    let pool_root = std::env::args()
         .nth(1)
-        .unwrap_or_else(|| "/home/jelle/mg-install-310".to_owned());
-    let root = PathBuf::from(root);
-    assert!(root.is_dir(), "no such root: {}", root.display());
+        .map(PathBuf::from)
+        .or_else(|| std::env::var_os("MAGECOMMAND_CORPUS").map(PathBuf::from))
+        .expect(
+            "usage: differential <magento-root>  (or set MAGECOMMAND_CORPUS). \
+             The committed corpus is not a valid pool — it is synthetic and \
+             unloadable by design; see this file's module docs.",
+        );
+    assert!(pool_root.is_dir(), "no such install root: {}", pool_root.display());
+    let diff_root = std::env::var_os("MAGECOMMAND_DIFF_ROOT")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| pool_root.clone());
+    assert!(
+        diff_root.join("vendor/autoload.php").is_file(),
+        "reflection root has no vendor/autoload.php: {}",
+        diff_root.display()
+    );
 
-    // 1. Parse the corpus.
+    // 1. Parse the pool.
     let mut files = Vec::new();
     for sub in ["vendor", "app", "lib", "generated"] {
-        collect_php(&root.join(sub), &mut files);
+        collect_php(&pool_root.join(sub), &mut files);
     }
     eprintln!("parsing {} files …", files.len());
     let parsed: Vec<(PathBuf, ClassMeta)> = files
@@ -57,12 +91,21 @@ fn main() {
     }
     eprintln!("{} unique declarations", by_fqcn.len());
 
-    // 2. Reflect in batches.
+    // 2. Reflect in batches. Files go to PHP at the path we parsed, so
+    // `reflect.php`'s `realpath` shadow check compares the file it loaded
+    // against the file we read.
     let script = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/reflect.php");
     let entries: Vec<(&String, &(PathBuf, ClassMeta))> = by_fqcn.iter().collect();
     let mut stats: BTreeMap<&'static str, usize> = BTreeMap::new();
     let mut mismatches: Vec<String> = Vec::new();
     let mut compared = 0usize;
+
+    // Magento's bootstrap resolves paths against the process cwd, so the
+    // child runs in the reflection root — never in the pool. (Pointing it at
+    // the corpus made `bougie run php` materialise its shim tree *inside*
+    // tests/corpus/, which is how a machine-local vendor/bougie/ directory
+    // came to be committed once.)
+    let child_cwd = &diff_root;
 
     for chunk in entries.chunks(BATCH) {
         // A PHP fatal (uncatchable redeclare/inheritance error while loading
@@ -74,8 +117,8 @@ fn main() {
             let mut child = Command::new("bougie")
                 .args(["run", "php"])
                 .arg(&script)
-                .arg(&root)
-                .current_dir(&root)
+                .arg(&diff_root)
+                .current_dir(child_cwd)
                 .stdin(Stdio::piped())
                 .stdout(Stdio::piped())
                 .stderr(Stdio::null())
@@ -84,7 +127,9 @@ fn main() {
             let mut stdin = child.stdin.take().unwrap();
             let input: String = rest
                 .iter()
-                .map(|(fqcn, (path, _))| format!("{}\t{}\n", fqcn, path.display()))
+                .map(|(fqcn, (path, _))| {
+                    format!("{}\t{}\n", fqcn, path.display())
+                })
                 .collect();
             let writer = std::thread::spawn(move || {
                 let _ = stdin.write_all(input.as_bytes());
@@ -99,15 +144,38 @@ fn main() {
                 seen += 1;
                 let fqcn = rec["fqcn"].as_str().unwrap_or_default().to_owned();
                 match rec["status"].as_str().unwrap_or("") {
-                    "ok" => {
-                        let (path, ours) = &by_fqcn[&fqcn];
-                        if is_conditional_polyfill(path) {
-                            *stats.entry("conditional-polyfill").or_default() += 1;
-                        } else {
-                            compared += 1;
-                            compare(ours, &rec, &mut mismatches);
-                        }
+                "ok" => {
+                    let (path, ours) = &by_fqcn[&fqcn];
+                    if ours.conditional || is_conditional_polyfill(path) {
+                        // What we WANT to skip is narrower than this: a file
+                        // that declares the same FQCN in several branches
+                        // (`if (version_compare(…)) { trait T … } else
+                        // { trait T … }`), where which branch PHP loads is a
+                        // runtime fact and reflection legitimately disagrees.
+                        //
+                        // `conditional` over-skips: it is equally true of a
+                        // single-branch guard whose one declaration
+                        // reflection agrees with exactly. Measured on the
+                        // 310 install: 118 conditional declarations out of
+                        // 51,030, of which 29 are genuinely redeclared and
+                        // 89 are single-declaration guards skipped for no
+                        // reason — 0.2% of the denominator.
+                        //
+                        // It is nonetheless the only signal available here:
+                        // `parse_file` keeps the `if` branch and never
+                        // descends into the `else` (see the
+                        // `*_keeps_if_branch` unit tests), so by the time the
+                        // harness has a ClassMeta the second declaration no
+                        // longer exists to count. Narrowing this predicate
+                        // means teaching the parser to record that it passed
+                        // over a redeclaration — a model change, not a
+                        // harness one.
+                        *stats.entry("conditional-declaration").or_default() += 1;
+                    } else {
+                        compared += 1;
+                        compare(ours, &rec, &mut mismatches);
                     }
+                }
                     "unloadable" => *stats.entry("unloadable").or_default() += 1,
                     "shadowed" => *stats.entry("shadowed").or_default() += 1,
                     "error" => *stats.entry("reflection-error").or_default() += 1,
@@ -145,9 +213,10 @@ fn main() {
     }
 }
 
-/// Files that declare the same class/trait several times behind version
-/// checks — which branch PHP loads is a runtime fact, so a static parser and
-/// reflection legitimately disagree. Not comparable by construction.
+/// Files with hardcoded polyfill shapes beyond the conditional flag (the
+/// two known alt-syntax shims, whose guard has no braces so `conditional`
+/// stays false). Everything else rides the structural `ClassMeta.
+/// conditional` check.
 fn is_conditional_polyfill(path: &Path) -> bool {
     let s = path.to_string_lossy();
     s.ends_with("psy/psysh/src/VarDumper/Dumper.php")
