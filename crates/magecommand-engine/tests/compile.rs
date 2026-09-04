@@ -175,10 +175,29 @@ fn compile_fixtures() {
 /// a 20-file compile is unreadable in a test failure; the first difference is
 /// almost always the whole story.
 fn first_difference(old: &str, new: &str) -> String {
+    // Line endings first: `lines()` strips \r\n and \n alike, so a golden
+    // checked out with CRLF compares equal on every line while the documents
+    // differ — which reads as "no visible difference" and sent one Windows CI
+    // failure the long way round. `.gitattributes` marks these fixtures
+    // `-text` to prevent it; this names it if that ever stops working.
+    if old.contains("\r\n") != new.contains("\r\n") {
+        let (crlf, lf) = if old.contains("\r\n") {
+            ("expected.txt", "the compile")
+        } else {
+            ("the compile", "expected.txt")
+        };
+        return format!(
+            "  line endings differ: {crlf} uses CRLF, {lf} uses LF. The fixtures are \
+             `-text` in .gitattributes precisely so a Windows checkout does not convert \
+             them — check that the attribute still covers this path."
+        );
+    }
     let (o, n): (Vec<&str>, Vec<&str>) = (old.lines().collect(), new.lines().collect());
     let at = (0..o.len().max(n.len())).find(|&i| o.get(i) != n.get(i));
     let Some(at) = at else {
-        return "(files differ only in trailing newline)".to_owned();
+        return "  documents differ but every line compares equal — a trailing-newline \
+                or lone-\\r difference"
+            .to_owned();
     };
     // Name the file the difference falls in — the header above the hit.
     let file = o[..=at.min(o.len().saturating_sub(1))]

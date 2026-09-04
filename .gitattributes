@@ -8,3 +8,12 @@ crates/magecommand-less/tests/fixtures/less-testdata/** -text
 # file bytes (sha256 column), so EOL conversion at checkout would fail the
 # corpus_gate test on Windows.
 crates/magecommand-php/tests/corpus/** -text
+
+# The magecommand-engine compile fixtures are byte-compared in both
+# directions: `expected.txt` holds every emitted file verbatim and is diffed
+# against a freshly computed string, and the `in/` tree is parsed byte-exactly
+# (a CRLF in a PHP source reaches the captured constant-expression text). EOL
+# conversion at checkout fails compile_fixtures on Windows — and fails it
+# opaquely, since `str::lines()` strips \r\n and \n alike, so every line
+# compares equal while the documents differ.
+crates/magecommand-engine/tests/compile-fixtures/** -text
