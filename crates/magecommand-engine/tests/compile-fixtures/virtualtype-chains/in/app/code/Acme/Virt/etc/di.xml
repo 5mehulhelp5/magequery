@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="AcmeVirtBase" type="Acme\Virt\Model\Engine">
+        <arguments>
+            <argument name="mode" xsi:type="string">base</argument>
+            <argument name="depth" xsi:type="number">1</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- A virtual type OF a virtual type: arguments must inherit then override. -->
+    <virtualType name="AcmeVirtDerived" type="AcmeVirtBase">
+        <arguments>
+            <argument name="depth" xsi:type="number">2</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- A virtual type used as an object argument elsewhere. -->
+    <type name="Acme\Virt\Model\Consumer">
+        <arguments>
+            <argument name="engine" xsi:type="object">AcmeVirtDerived</argument>
+        </arguments>
+    </type>
+</config>

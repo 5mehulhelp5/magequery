@@ -1,0 +1,546 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Chain/Model/Leaf/Interceptor.php =====
+<?php
+namespace Acme\Chain\Model\Leaf;
+
+/**
+ * Interceptor class for @see \Acme\Chain\Model\Leaf
+ */
+class Interceptor extends \Acme\Chain\Model\Leaf implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(string $label = 'x', int $n = 1)
+    {
+        $this->___init();
+        parent::__construct($label, $n);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): string
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'run');
+        return $pluginInfo ? $this->___callPlugins('run', func_get_args(), $pluginInfo) : parent::run();
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Chain\\Model\\Base' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Leaf\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Middle' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 'Acme\\Chain\\Model\\Leaf\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Chain\\Model\\Base' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Leaf\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Middle' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 'Acme\\Chain\\Model\\Leaf\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Chain\\Model\\Base' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Leaf\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Middle' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 'Acme\\Chain\\Model\\Leaf\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 
+    array (
+      'acme_chain_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Chain\\Plugin\\P',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Chain\\Model\\Base' => NULL,
+    'Acme\\Chain\\Model\\Middle' => NULL,
+    'Acme\\Chain\\Model\\Leaf' => 
+    array (
+      'acme_chain_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Chain\\Plugin\\P',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Chain\\Model\\Leaf_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_chain_p',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Chain\\Model\\Base' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Leaf\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Middle' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 'Acme\\Chain\\Model\\Leaf\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 
+    array (
+      'acme_chain_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Chain\\Plugin\\P',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Chain\\Model\\Base' => NULL,
+    'Acme\\Chain\\Model\\Middle' => NULL,
+    'Acme\\Chain\\Model\\Leaf' => 
+    array (
+      'acme_chain_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Chain\\Plugin\\P',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Chain\\Model\\Leaf_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_chain_p',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Chain\\Model\\Base' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Leaf\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Middle' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 'Acme\\Chain\\Model\\Leaf\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Chain\\Model\\Base' => false,
+  'Acme\\Chain\\Model\\Leaf' => true,
+  'Acme\\Chain\\Model\\Leaf\\Interceptor' => false,
+  'Acme\\Chain\\Model\\Middle' => false,
+  'Acme\\Chain\\Plugin\\P' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Chain\\Model\\Base' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Leaf\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Middle' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 'Acme\\Chain\\Model\\Leaf\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Chain\\Model\\Base' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Leaf\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Model\\Middle' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-base',
+      ),
+      'n' => 
+      array (
+        '_v_' => 1,
+      ),
+    ),
+    'Acme\\Chain\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Chain\\Model\\Leaf' => 'Acme\\Chain\\Model\\Leaf\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

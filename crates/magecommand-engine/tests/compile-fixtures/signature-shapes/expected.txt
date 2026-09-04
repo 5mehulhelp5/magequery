@@ -1,0 +1,545 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Sig/Model/Hard/Interceptor.php =====
+<?php
+namespace Acme\Sig\Model\Hard;
+
+/**
+ * Interceptor class for @see \Acme\Sig\Model\Hard
+ */
+class Interceptor extends \Acme\Sig\Model\Hard implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(string $named = 'fb', array $opts = ['a' => 1], ?int $maybe = null, int|string $union = 0, mixed ... $rest)
+    {
+        $this->___init();
+        parent::__construct($named, $opts, $maybe, $union, ... $rest);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function collect(int &$counter, string ... $names): static
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'collect');
+        return $pluginInfo ? $this->___callPlugins('collect', func_get_args(), $pluginInfo) : parent::collect($counter, ... $names);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function maybe(?\Acme\Sig\Model\Hard $other = null): ?static
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'maybe');
+        return $pluginInfo ? $this->___callPlugins('maybe', func_get_args(), $pluginInfo) : parent::maybe($other);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function nothing(): void
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'nothing');
+        $pluginInfo ? $this->___callPlugins('nothing', func_get_args(), $pluginInfo) : parent::nothing();
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Sig\\Model\\Hard\\Interceptor' => 
+    array (
+      'named' => 
+      array (
+        '_v_' => 'fb',
+      ),
+      'opts' => 
+      array (
+        '_v_' => 
+        array (
+          'a' => 1,
+        ),
+      ),
+      'maybe' => 
+      array (
+        '_vn_' => true,
+      ),
+      'union' => 
+      array (
+        '_v_' => 0,
+      ),
+      'rest' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Sig\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 'Acme\\Sig\\Model\\Hard\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Sig\\Model\\Hard\\Interceptor' => 
+    array (
+      'named' => 
+      array (
+        '_v_' => 'fb',
+      ),
+      'opts' => 
+      array (
+        '_v_' => 
+        array (
+          'a' => 1,
+        ),
+      ),
+      'maybe' => 
+      array (
+        '_vn_' => true,
+      ),
+      'union' => 
+      array (
+        '_v_' => 0,
+      ),
+      'rest' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Sig\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 'Acme\\Sig\\Model\\Hard\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Sig\\Model\\Hard\\Interceptor' => 
+    array (
+      'named' => 
+      array (
+        '_v_' => 'fb',
+      ),
+      'opts' => 
+      array (
+        '_v_' => 
+        array (
+          'a' => 1,
+        ),
+      ),
+      'maybe' => 
+      array (
+        '_vn_' => true,
+      ),
+      'union' => 
+      array (
+        '_v_' => 0,
+      ),
+      'rest' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Sig\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 'Acme\\Sig\\Model\\Hard\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 
+    array (
+      'acme_sig_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Sig\\Plugin\\P',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 
+    array (
+      'acme_sig_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Sig\\Plugin\\P',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Sig\\Model\\Hard_collect___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_sig_p',
+      ),
+    ),
+    'Acme\\Sig\\Model\\Hard_maybe___self' => 
+    array (
+      1 => 
+      array (
+        0 => 'acme_sig_p',
+      ),
+    ),
+    'Acme\\Sig\\Model\\Hard_nothing___self' => 
+    array (
+      2 => 'acme_sig_p',
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Sig\\Model\\Hard\\Interceptor' => 
+    array (
+      'named' => 
+      array (
+        '_v_' => 'fb',
+      ),
+      'opts' => 
+      array (
+        '_v_' => 
+        array (
+          'a' => 1,
+        ),
+      ),
+      'maybe' => 
+      array (
+        '_vn_' => true,
+      ),
+      'union' => 
+      array (
+        '_v_' => 0,
+      ),
+      'rest' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Sig\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 'Acme\\Sig\\Model\\Hard\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 
+    array (
+      'acme_sig_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Sig\\Plugin\\P',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 
+    array (
+      'acme_sig_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Sig\\Plugin\\P',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Sig\\Model\\Hard_collect___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_sig_p',
+      ),
+    ),
+    'Acme\\Sig\\Model\\Hard_maybe___self' => 
+    array (
+      1 => 
+      array (
+        0 => 'acme_sig_p',
+      ),
+    ),
+    'Acme\\Sig\\Model\\Hard_nothing___self' => 
+    array (
+      2 => 'acme_sig_p',
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Sig\\Model\\Hard\\Interceptor' => 
+    array (
+      'named' => 
+      array (
+        '_v_' => 'fb',
+      ),
+      'opts' => 
+      array (
+        '_v_' => 
+        array (
+          'a' => 1,
+        ),
+      ),
+      'maybe' => 
+      array (
+        '_vn_' => true,
+      ),
+      'union' => 
+      array (
+        '_v_' => 0,
+      ),
+      'rest' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Sig\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 'Acme\\Sig\\Model\\Hard\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Sig\\Model\\Hard' => true,
+  'Acme\\Sig\\Model\\Hard\\Interceptor' => false,
+  'Acme\\Sig\\Plugin\\P' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Sig\\Model\\Hard\\Interceptor' => 
+    array (
+      'named' => 
+      array (
+        '_v_' => 'fb',
+      ),
+      'opts' => 
+      array (
+        '_v_' => 
+        array (
+          'a' => 1,
+        ),
+      ),
+      'maybe' => 
+      array (
+        '_vn_' => true,
+      ),
+      'union' => 
+      array (
+        '_v_' => 0,
+      ),
+      'rest' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Sig\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 'Acme\\Sig\\Model\\Hard\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Sig\\Model\\Hard\\Interceptor' => 
+    array (
+      'named' => 
+      array (
+        '_v_' => 'fb',
+      ),
+      'opts' => 
+      array (
+        '_v_' => 
+        array (
+          'a' => 1,
+        ),
+      ),
+      'maybe' => 
+      array (
+        '_vn_' => true,
+      ),
+      'union' => 
+      array (
+        '_v_' => 0,
+      ),
+      'rest' => 
+      array (
+        '_v_' => 
+        array (
+        ),
+      ),
+    ),
+    'Acme\\Sig\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Sig\\Model\\Hard' => 'Acme\\Sig\\Model\\Hard\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Acme\First\Api\ThingInterface" type="Acme\First\Model\ThingA"/>
+    <type name="Acme\First\Model\ThingA">
+        <arguments>
+            <argument name="label" xsi:type="string">from-first</argument>
+            <argument name="kept" xsi:type="string">only-in-first</argument>
+        </arguments>
+        <plugin name="shared_plugin" type="Acme\First\Plugin\A" sortOrder="10"/>
+    </type>
+</config>

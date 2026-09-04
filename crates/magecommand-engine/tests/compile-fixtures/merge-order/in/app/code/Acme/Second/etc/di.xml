@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Loads after First: this preference and this argument win, `kept` survives. -->
+    <preference for="Acme\First\Api\ThingInterface" type="Acme\First\Model\ThingB"/>
+    <type name="Acme\First\Model\ThingA">
+        <arguments>
+            <argument name="label" xsi:type="string">from-second</argument>
+        </arguments>
+        <!-- Same plugin NAME, different sortOrder: a merge, not a second plugin. -->
+        <plugin name="shared_plugin" sortOrder="99"/>
+    </type>
+</config>

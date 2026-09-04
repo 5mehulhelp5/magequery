@@ -1,0 +1,375 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Slash/Model/Port/Interceptor.php =====
+<?php
+namespace Acme\Slash\Model\Port;
+
+/**
+ * Interceptor class for @see \Acme\Slash\Model\Port
+ */
+class Interceptor extends \Acme\Slash\Model\Port implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(?\Acme\Slash\Model\Dep $dep = null)
+    {
+        $this->___init();
+        parent::__construct($dep);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function open(): bool
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'open');
+        return $pluginInfo ? $this->___callPlugins('open', func_get_args(), $pluginInfo) : parent::open();
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Slash\\Model\\Dep' => NULL,
+    'Acme\\Slash\\Model\\Port\\Interceptor' => 
+    array (
+      'dep' => 
+      array (
+        '_i_' => 'Acme\\Slash\\Model\\Dep',
+      ),
+    ),
+    'Acme\\Slash\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+    'Acme\\Slash\\Model\\Port' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Slash\\Model\\Dep' => NULL,
+    'Acme\\Slash\\Model\\Port\\Interceptor' => 
+    array (
+      'dep' => 
+      array (
+        '_i_' => 'Acme\\Slash\\Model\\Dep',
+      ),
+    ),
+    'Acme\\Slash\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+    'Acme\\Slash\\Model\\Port' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Slash\\Model\\Dep' => NULL,
+    'Acme\\Slash\\Model\\Port\\Interceptor' => 
+    array (
+      'dep' => 
+      array (
+        '_i_' => 'Acme\\Slash\\Model\\Dep',
+      ),
+    ),
+    'Acme\\Slash\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+    'Acme\\Slash\\Model\\Port' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Slash\\Model\\Port' => 
+    array (
+      'acme_slash_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => '\\Acme\\Slash\\Plugin\\P',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => NULL,
+    'Acme\\Slash\\Model\\Port' => 
+    array (
+      'acme_slash_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Slash\\Plugin\\P',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Slash\\Model\\Port_open___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_slash_p',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Slash\\Model\\Dep' => NULL,
+    'Acme\\Slash\\Model\\Port\\Interceptor' => 
+    array (
+      'dep' => 
+      array (
+        '_i_' => 'Acme\\Slash\\Model\\Dep',
+      ),
+    ),
+    'Acme\\Slash\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+    'Acme\\Slash\\Model\\Port' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Slash\\Model\\Port' => 
+    array (
+      'acme_slash_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => '\\Acme\\Slash\\Plugin\\P',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => NULL,
+    'Acme\\Slash\\Model\\Port' => 
+    array (
+      'acme_slash_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Slash\\Plugin\\P',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Slash\\Model\\Port_open___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_slash_p',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Slash\\Model\\Dep' => NULL,
+    'Acme\\Slash\\Model\\Port\\Interceptor' => 
+    array (
+      'dep' => 
+      array (
+        '_i_' => 'Acme\\Slash\\Model\\Dep',
+      ),
+    ),
+    'Acme\\Slash\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+    'Acme\\Slash\\Model\\Port' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Slash\\Model\\Dep' => false,
+  'Acme\\Slash\\Model\\Port' => true,
+  'Acme\\Slash\\Model\\Port\\Interceptor' => false,
+  'Acme\\Slash\\Plugin\\P' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Slash\\Model\\Dep' => NULL,
+    'Acme\\Slash\\Model\\Port\\Interceptor' => 
+    array (
+      'dep' => 
+      array (
+        '_i_' => 'Acme\\Slash\\Model\\Dep',
+      ),
+    ),
+    'Acme\\Slash\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+    'Acme\\Slash\\Model\\Port' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Slash\\Model\\Dep' => NULL,
+    'Acme\\Slash\\Model\\Port\\Interceptor' => 
+    array (
+      'dep' => 
+      array (
+        '_i_' => 'Acme\\Slash\\Model\\Dep',
+      ),
+    ),
+    'Acme\\Slash\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Slash\\Api\\PortInterface' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+    'Acme\\Slash\\Model\\Port' => 'Acme\\Slash\\Model\\Port\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

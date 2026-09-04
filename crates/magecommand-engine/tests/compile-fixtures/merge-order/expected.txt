@@ -1,0 +1,474 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/First/Model/ThingA/Interceptor.php =====
+<?php
+namespace Acme\First\Model\ThingA;
+
+/**
+ * Interceptor class for @see \Acme\First\Model\ThingA
+ */
+class Interceptor extends \Acme\First\Model\ThingA implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(string $label = '', string $kept = '')
+    {
+        $this->___init();
+        parent::__construct($label, $kept);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function go(): void
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'go');
+        $pluginInfo ? $this->___callPlugins('go', func_get_args(), $pluginInfo) : parent::go();
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\First\\Model\\ThingA\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-second',
+      ),
+      'kept' => 
+      array (
+        '_v_' => 'only-in-first',
+      ),
+    ),
+    'Acme\\First\\Model\\ThingB' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => '',
+      ),
+      'kept' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\First\\Plugin\\A' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => 'Acme\\First\\Model\\ThingB',
+    'Acme\\First\\Model\\ThingA' => 'Acme\\First\\Model\\ThingA\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\First\\Model\\ThingA\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-second',
+      ),
+      'kept' => 
+      array (
+        '_v_' => 'only-in-first',
+      ),
+    ),
+    'Acme\\First\\Model\\ThingB' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => '',
+      ),
+      'kept' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\First\\Plugin\\A' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => 'Acme\\First\\Model\\ThingB',
+    'Acme\\First\\Model\\ThingA' => 'Acme\\First\\Model\\ThingA\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\First\\Model\\ThingA\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-second',
+      ),
+      'kept' => 
+      array (
+        '_v_' => 'only-in-first',
+      ),
+    ),
+    'Acme\\First\\Model\\ThingB' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => '',
+      ),
+      'kept' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\First\\Plugin\\A' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => 'Acme\\First\\Model\\ThingB',
+    'Acme\\First\\Model\\ThingA' => 'Acme\\First\\Model\\ThingA\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\First\\Model\\ThingA' => 
+    array (
+      'shared_plugin' => 
+      array (
+        'sortOrder' => 99,
+        'instance' => 'Acme\\First\\Plugin\\A',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => NULL,
+    'Acme\\First\\Model\\ThingA' => 
+    array (
+      'shared_plugin' => 
+      array (
+        'sortOrder' => 99,
+        'instance' => 'Acme\\First\\Plugin\\A',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\First\\Model\\ThingA_go___self' => 
+    array (
+      1 => 
+      array (
+        0 => 'shared_plugin',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\First\\Model\\ThingA\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-second',
+      ),
+      'kept' => 
+      array (
+        '_v_' => 'only-in-first',
+      ),
+    ),
+    'Acme\\First\\Model\\ThingB' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => '',
+      ),
+      'kept' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\First\\Plugin\\A' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => 'Acme\\First\\Model\\ThingB',
+    'Acme\\First\\Model\\ThingA' => 'Acme\\First\\Model\\ThingA\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\First\\Model\\ThingA' => 
+    array (
+      'shared_plugin' => 
+      array (
+        'sortOrder' => 99,
+        'instance' => 'Acme\\First\\Plugin\\A',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => NULL,
+    'Acme\\First\\Model\\ThingA' => 
+    array (
+      'shared_plugin' => 
+      array (
+        'sortOrder' => 99,
+        'instance' => 'Acme\\First\\Plugin\\A',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\First\\Model\\ThingA_go___self' => 
+    array (
+      1 => 
+      array (
+        0 => 'shared_plugin',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\First\\Model\\ThingA\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-second',
+      ),
+      'kept' => 
+      array (
+        '_v_' => 'only-in-first',
+      ),
+    ),
+    'Acme\\First\\Model\\ThingB' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => '',
+      ),
+      'kept' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\First\\Plugin\\A' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => 'Acme\\First\\Model\\ThingB',
+    'Acme\\First\\Model\\ThingA' => 'Acme\\First\\Model\\ThingA\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\First\\Api\\ThingInterface' => false,
+  'Acme\\First\\Model\\ThingA' => true,
+  'Acme\\First\\Model\\ThingA\\Interceptor' => false,
+  'Acme\\First\\Model\\ThingB' => false,
+  'Acme\\First\\Plugin\\A' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\First\\Model\\ThingA\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-second',
+      ),
+      'kept' => 
+      array (
+        '_v_' => 'only-in-first',
+      ),
+    ),
+    'Acme\\First\\Model\\ThingB' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => '',
+      ),
+      'kept' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\First\\Plugin\\A' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => 'Acme\\First\\Model\\ThingB',
+    'Acme\\First\\Model\\ThingA' => 'Acme\\First\\Model\\ThingA\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\First\\Model\\ThingA\\Interceptor' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => 'from-second',
+      ),
+      'kept' => 
+      array (
+        '_v_' => 'only-in-first',
+      ),
+    ),
+    'Acme\\First\\Model\\ThingB' => 
+    array (
+      'label' => 
+      array (
+        '_v_' => '',
+      ),
+      'kept' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\First\\Plugin\\A' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\First\\Api\\ThingInterface' => 'Acme\\First\\Model\\ThingB',
+    'Acme\\First\\Model\\ThingA' => 'Acme\\First\\Model\\ThingA\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

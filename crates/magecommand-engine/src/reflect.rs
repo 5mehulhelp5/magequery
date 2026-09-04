@@ -348,10 +348,28 @@ pub(crate) fn verbatim_expr(expr: &ConstExpr, classes: &[String]) -> Option<Stri
             };
             format!("{cls}::{name}")
         }
+        // An array whose members are individually renderable. eval() cannot fold
+        // an array containing an enum case (a case is an object, not a const
+        // value), and dropping the default there turns an optional parameter
+        // into a required one — so render the array instead. Magento's own
+        // output is var_export of the evaluated array, in which an enum case
+        // appears as `\Ns\Enum::Case`, which is exactly what this produces.
+        ConstExpr::Array(items) => {
+            let mut parts = Vec::with_capacity(items.len());
+            for (key, value) in items {
+                let v = verbatim_expr(value, classes)?;
+                parts.push(match key {
+                    Some(k) => format!("{} => {}", verbatim_expr(k, classes)?, v),
+                    None => v,
+                });
+            }
+            format!("[{}]", parts.join(", "))
+        }
         ConstExpr::Neg(inner) => format!("-{}", verbatim_expr(inner, classes)?),
         ConstExpr::BinOp { op, left, right } => {
             let sym = match op {
                 BinOp::Concat => ".",
+                BinOp::Pow => "**",
                 BinOp::Add => "+",
                 BinOp::Sub => "-",
                 BinOp::Mul => "*",

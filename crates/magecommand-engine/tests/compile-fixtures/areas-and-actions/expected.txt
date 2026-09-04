@@ -1,0 +1,507 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Areas/Model/Svc/Interceptor.php =====
+<?php
+namespace Acme\Areas\Model\Svc;
+
+/**
+ * Interceptor class for @see \Acme\Areas\Model\Svc
+ */
+class Interceptor extends \Acme\Areas\Model\Svc implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct()
+    {
+        $this->___init();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): string
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'run');
+        return $pluginInfo ? $this->___callPlugins('run', func_get_args(), $pluginInfo) : parent::run();
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View' => NULL,
+    'Acme\\Areas\\Controller\\Index\\Index' => NULL,
+    'Acme\\Areas\\Model\\Svc' => NULL,
+    'Acme\\Areas\\Plugin\\Admin' => NULL,
+    'Acme\\Areas\\Plugin\\Cron' => NULL,
+    'Acme\\Areas\\Plugin\\Front' => NULL,
+    'Acme\\Areas\\Plugin\\Global_' => NULL,
+    'Acme\\Areas\\Plugin\\Graph' => NULL,
+    'Acme\\Areas\\Plugin\\Rest' => NULL,
+    'Acme\\Areas\\Plugin\\Soap' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 'Acme\\Areas\\Model\\Svc\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_admin' => 
+      array (
+        'sortOrder' => 30,
+        'instance' => 'Acme\\Areas\\Plugin\\Admin',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_admin' => 
+      array (
+        'sortOrder' => 30,
+        'instance' => 'Acme\\Areas\\Plugin\\Admin',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Areas\\Model\\Svc_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_areas_admin',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+  'acme\\areas\\controller\\adminhtml\\grid\\view' => 'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View',
+  'acme\\areas\\controller\\index\\index' => 'Acme\\Areas\\Controller\\Index\\Index',
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View' => NULL,
+    'Acme\\Areas\\Controller\\Index\\Index' => NULL,
+    'Acme\\Areas\\Model\\Svc' => NULL,
+    'Acme\\Areas\\Plugin\\Admin' => NULL,
+    'Acme\\Areas\\Plugin\\Cron' => NULL,
+    'Acme\\Areas\\Plugin\\Front' => NULL,
+    'Acme\\Areas\\Plugin\\Global_' => NULL,
+    'Acme\\Areas\\Plugin\\Graph' => NULL,
+    'Acme\\Areas\\Plugin\\Rest' => NULL,
+    'Acme\\Areas\\Plugin\\Soap' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 'Acme\\Areas\\Model\\Svc\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_cron' => 
+      array (
+        'sortOrder' => 40,
+        'instance' => 'Acme\\Areas\\Plugin\\Cron',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_cron' => 
+      array (
+        'sortOrder' => 40,
+        'instance' => 'Acme\\Areas\\Plugin\\Cron',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Areas\\Model\\Svc_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_areas_cron',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View' => NULL,
+    'Acme\\Areas\\Controller\\Index\\Index' => NULL,
+    'Acme\\Areas\\Model\\Svc' => NULL,
+    'Acme\\Areas\\Plugin\\Admin' => NULL,
+    'Acme\\Areas\\Plugin\\Cron' => NULL,
+    'Acme\\Areas\\Plugin\\Front' => NULL,
+    'Acme\\Areas\\Plugin\\Global_' => NULL,
+    'Acme\\Areas\\Plugin\\Graph' => NULL,
+    'Acme\\Areas\\Plugin\\Rest' => NULL,
+    'Acme\\Areas\\Plugin\\Soap' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 'Acme\\Areas\\Model\\Svc\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_global' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Areas\\Plugin\\Global_',
+      ),
+      'acme_areas_front' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Areas\\Plugin\\Front',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_global' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Areas\\Plugin\\Global_',
+      ),
+      'acme_areas_front' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Areas\\Plugin\\Front',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Areas\\Model\\Svc_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_areas_global',
+        1 => 'acme_areas_front',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View' => NULL,
+    'Acme\\Areas\\Controller\\Index\\Index' => NULL,
+    'Acme\\Areas\\Model\\Svc' => NULL,
+    'Acme\\Areas\\Plugin\\Admin' => NULL,
+    'Acme\\Areas\\Plugin\\Cron' => NULL,
+    'Acme\\Areas\\Plugin\\Front' => NULL,
+    'Acme\\Areas\\Plugin\\Global_' => NULL,
+    'Acme\\Areas\\Plugin\\Graph' => NULL,
+    'Acme\\Areas\\Plugin\\Rest' => NULL,
+    'Acme\\Areas\\Plugin\\Soap' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 'Acme\\Areas\\Model\\Svc\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_graph' => 
+      array (
+        'sortOrder' => 70,
+        'instance' => 'Acme\\Areas\\Plugin\\Graph',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_graph' => 
+      array (
+        'sortOrder' => 70,
+        'instance' => 'Acme\\Areas\\Plugin\\Graph',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Areas\\Model\\Svc_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_areas_graph',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_global' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Areas\\Plugin\\Global_',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_global' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Areas\\Plugin\\Global_',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Areas\\Model\\Svc_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_areas_global',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_rest' => 
+      array (
+        'sortOrder' => 50,
+        'instance' => 'Acme\\Areas\\Plugin\\Rest',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_rest' => 
+      array (
+        'sortOrder' => 50,
+        'instance' => 'Acme\\Areas\\Plugin\\Rest',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Areas\\Model\\Svc_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_areas_rest',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_soap' => 
+      array (
+        'sortOrder' => 60,
+        'instance' => 'Acme\\Areas\\Plugin\\Soap',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 
+    array (
+      'acme_areas_soap' => 
+      array (
+        'sortOrder' => 60,
+        'instance' => 'Acme\\Areas\\Plugin\\Soap',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Areas\\Model\\Svc_run___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_areas_soap',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View' => NULL,
+    'Acme\\Areas\\Controller\\Index\\Index' => NULL,
+    'Acme\\Areas\\Model\\Svc' => NULL,
+    'Acme\\Areas\\Plugin\\Admin' => NULL,
+    'Acme\\Areas\\Plugin\\Cron' => NULL,
+    'Acme\\Areas\\Plugin\\Front' => NULL,
+    'Acme\\Areas\\Plugin\\Global_' => NULL,
+    'Acme\\Areas\\Plugin\\Graph' => NULL,
+    'Acme\\Areas\\Plugin\\Rest' => NULL,
+    'Acme\\Areas\\Plugin\\Soap' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 'Acme\\Areas\\Model\\Svc\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View' => false,
+  'Acme\\Areas\\Controller\\Index\\Index' => false,
+  'Acme\\Areas\\Model\\Svc' => true,
+  'Acme\\Areas\\Model\\Svc\\Interceptor' => false,
+  'Acme\\Areas\\Plugin\\Admin' => false,
+  'Acme\\Areas\\Plugin\\Cron' => false,
+  'Acme\\Areas\\Plugin\\Front' => false,
+  'Acme\\Areas\\Plugin\\Global_' => false,
+  'Acme\\Areas\\Plugin\\Graph' => false,
+  'Acme\\Areas\\Plugin\\Rest' => false,
+  'Acme\\Areas\\Plugin\\Soap' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View' => NULL,
+    'Acme\\Areas\\Controller\\Index\\Index' => NULL,
+    'Acme\\Areas\\Model\\Svc' => NULL,
+    'Acme\\Areas\\Plugin\\Admin' => NULL,
+    'Acme\\Areas\\Plugin\\Cron' => NULL,
+    'Acme\\Areas\\Plugin\\Front' => NULL,
+    'Acme\\Areas\\Plugin\\Global_' => NULL,
+    'Acme\\Areas\\Plugin\\Graph' => NULL,
+    'Acme\\Areas\\Plugin\\Rest' => NULL,
+    'Acme\\Areas\\Plugin\\Soap' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 'Acme\\Areas\\Model\\Svc\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Areas\\Controller\\Adminhtml\\Grid\\View' => NULL,
+    'Acme\\Areas\\Controller\\Index\\Index' => NULL,
+    'Acme\\Areas\\Model\\Svc' => NULL,
+    'Acme\\Areas\\Plugin\\Admin' => NULL,
+    'Acme\\Areas\\Plugin\\Cron' => NULL,
+    'Acme\\Areas\\Plugin\\Front' => NULL,
+    'Acme\\Areas\\Plugin\\Global_' => NULL,
+    'Acme\\Areas\\Plugin\\Graph' => NULL,
+    'Acme\\Areas\\Plugin\\Rest' => NULL,
+    'Acme\\Areas\\Plugin\\Soap' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Areas\\Model\\Svc' => 'Acme\\Areas\\Model\\Svc\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

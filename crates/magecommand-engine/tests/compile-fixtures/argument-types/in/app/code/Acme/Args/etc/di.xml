@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Args\Model\Every">
+        <arguments>
+            <argument name="text" xsi:type="string">plain</argument>
+            <argument name="whole" xsi:type="number">42</argument>
+            <argument name="fraction" xsi:type="number">1.5</argument>
+            <argument name="yes" xsi:type="boolean">true</argument>
+            <argument name="no" xsi:type="boolean">0</argument>
+            <argument name="konst" xsi:type="const">Acme\Args\Model\Every::LIMIT</argument>
+            <argument name="param" xsi:type="init_parameter">Acme\Args\Model\Every::DIR</argument>
+            <argument name="obj" xsi:type="object">Acme\Args\Model\Dep</argument>
+            <argument name="unshared" xsi:type="object" shared="false">Acme\Args\Model\Dep</argument>
+            <argument name="nested" xsi:type="array">
+                <item name="a" xsi:type="string">one</item>
+                <item name="2" xsi:type="number">2</item>
+                <item name="deep" xsi:type="array">
+                    <item name="inner" xsi:type="boolean">true</item>
+                    <item name="obj" xsi:type="object">Acme\Args\Model\Dep</item>
+                </item>
+            </argument>
+            <argument name="ordered" xsi:type="array">
+                <item name="late" xsi:type="string" sortOrder="20">second</item>
+                <item name="early" xsi:type="string" sortOrder="10">first</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

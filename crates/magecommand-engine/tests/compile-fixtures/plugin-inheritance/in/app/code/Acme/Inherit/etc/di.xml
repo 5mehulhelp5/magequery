@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- A plugin on the INTERFACE: every implementation inherits interception. -->
+    <type name="Acme\Inherit\Api\WriterInterface">
+        <plugin name="acme_inherit_iface" type="Acme\Inherit\Plugin\OnIface" sortOrder="10"/>
+    </type>
+    <!-- A plugin on a BASE CLASS: subclasses inherit it. -->
+    <type name="Acme\Inherit\Model\AbstractWriter">
+        <plugin name="acme_inherit_base" type="Acme\Inherit\Plugin\OnBase" sortOrder="20"/>
+    </type>
+</config>

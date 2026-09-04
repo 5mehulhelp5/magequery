@@ -1,0 +1,534 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 16  findings: 0  unresolved: 0
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeVirtBase' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '1',
+      ),
+    ),
+    'AcmeVirtDerived' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '2',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Consumer' => 
+    array (
+      'engine' => 
+      array (
+        '_i_' => 'AcmeVirtDerived',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Engine' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'off',
+      ),
+      'depth' => 
+      array (
+        '_v_' => 0,
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeVirtBase' => 'Acme\\Virt\\Model\\Engine',
+    'AcmeVirtDerived' => 'Acme\\Virt\\Model\\Engine',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeVirtBase' => true,
+    'AcmeVirtDerived' => true,
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeVirtBase' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '1',
+      ),
+    ),
+    'AcmeVirtDerived' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '2',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Consumer' => 
+    array (
+      'engine' => 
+      array (
+        '_i_' => 'AcmeVirtDerived',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Engine' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'off',
+      ),
+      'depth' => 
+      array (
+        '_v_' => 0,
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeVirtBase' => 'Acme\\Virt\\Model\\Engine',
+    'AcmeVirtDerived' => 'Acme\\Virt\\Model\\Engine',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeVirtBase' => true,
+    'AcmeVirtDerived' => true,
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeVirtBase' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '1',
+      ),
+    ),
+    'AcmeVirtDerived' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '2',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Consumer' => 
+    array (
+      'engine' => 
+      array (
+        '_i_' => 'AcmeVirtDerived',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Engine' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'off',
+      ),
+      'depth' => 
+      array (
+        '_v_' => 0,
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeVirtBase' => 'Acme\\Virt\\Model\\Engine',
+    'AcmeVirtDerived' => 'Acme\\Virt\\Model\\Engine',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeVirtBase' => true,
+    'AcmeVirtDerived' => true,
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeVirtBase' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '1',
+      ),
+    ),
+    'AcmeVirtDerived' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '2',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Consumer' => 
+    array (
+      'engine' => 
+      array (
+        '_i_' => 'AcmeVirtDerived',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Engine' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'off',
+      ),
+      'depth' => 
+      array (
+        '_v_' => 0,
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeVirtBase' => 'Acme\\Virt\\Model\\Engine',
+    'AcmeVirtDerived' => 'Acme\\Virt\\Model\\Engine',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeVirtBase' => true,
+    'AcmeVirtDerived' => true,
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+    'Acme\\Virt\\Model\\Engine' => NULL,
+    'AcmeVirtBase' => NULL,
+    'AcmeVirtDerived' => NULL,
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeVirtBase' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '1',
+      ),
+    ),
+    'AcmeVirtDerived' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '2',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Consumer' => 
+    array (
+      'engine' => 
+      array (
+        '_i_' => 'AcmeVirtDerived',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Engine' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'off',
+      ),
+      'depth' => 
+      array (
+        '_v_' => 0,
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeVirtBase' => 'Acme\\Virt\\Model\\Engine',
+    'AcmeVirtDerived' => 'Acme\\Virt\\Model\\Engine',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeVirtBase' => true,
+    'AcmeVirtDerived' => true,
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'AcmeVirtBase' => false,
+  'AcmeVirtDerived' => false,
+  'Acme\\Virt\\Model\\Consumer' => false,
+  'Acme\\Virt\\Model\\Engine' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeVirtBase' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '1',
+      ),
+    ),
+    'AcmeVirtDerived' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '2',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Consumer' => 
+    array (
+      'engine' => 
+      array (
+        '_i_' => 'AcmeVirtDerived',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Engine' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'off',
+      ),
+      'depth' => 
+      array (
+        '_v_' => 0,
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeVirtBase' => 'Acme\\Virt\\Model\\Engine',
+    'AcmeVirtDerived' => 'Acme\\Virt\\Model\\Engine',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeVirtBase' => true,
+    'AcmeVirtDerived' => true,
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmeVirtBase' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '1',
+      ),
+    ),
+    'AcmeVirtDerived' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'base',
+      ),
+      'depth' => 
+      array (
+        '_v_' => '2',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Consumer' => 
+    array (
+      'engine' => 
+      array (
+        '_i_' => 'AcmeVirtDerived',
+      ),
+    ),
+    'Acme\\Virt\\Model\\Engine' => 
+    array (
+      'mode' => 
+      array (
+        '_v_' => 'off',
+      ),
+      'depth' => 
+      array (
+        '_v_' => 0,
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmeVirtBase' => 'Acme\\Virt\\Model\\Engine',
+    'AcmeVirtDerived' => 'Acme\\Virt\\Model\\Engine',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmeVirtBase' => true,
+    'AcmeVirtDerived' => true,
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

@@ -1,0 +1,404 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Inherit/Model/FileWriter/Interceptor.php =====
+<?php
+namespace Acme\Inherit\Model\FileWriter;
+
+/**
+ * Interceptor class for @see \Acme\Inherit\Model\FileWriter
+ */
+class Interceptor extends \Acme\Inherit\Model\FileWriter implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct()
+    {
+        $this->___init();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function target(): string
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'target');
+        return $pluginInfo ? $this->___callPlugins('target', func_get_args(), $pluginInfo) : parent::target();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function write(string $payload): int
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'write');
+        return $pluginInfo ? $this->___callPlugins('write', func_get_args(), $pluginInfo) : parent::write($payload);
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => NULL,
+    'Acme\\Inherit\\Plugin\\OnBase' => NULL,
+    'Acme\\Inherit\\Plugin\\OnIface' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => 'Acme\\Inherit\\Model\\FileWriter\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => NULL,
+    'Acme\\Inherit\\Plugin\\OnBase' => NULL,
+    'Acme\\Inherit\\Plugin\\OnIface' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => 'Acme\\Inherit\\Model\\FileWriter\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => NULL,
+    'Acme\\Inherit\\Plugin\\OnBase' => NULL,
+    'Acme\\Inherit\\Plugin\\OnIface' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => 'Acme\\Inherit\\Model\\FileWriter\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Inherit\\Api\\WriterInterface' => 
+    array (
+      'acme_inherit_iface' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnIface',
+      ),
+    ),
+    'Acme\\Inherit\\Model\\AbstractWriter' => 
+    array (
+      'acme_inherit_base' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnBase',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Inherit\\Api\\WriterInterface' => 
+    array (
+      'acme_inherit_iface' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnIface',
+      ),
+    ),
+    'Acme\\Inherit\\Model\\AbstractWriter' => 
+    array (
+      'acme_inherit_iface' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnIface',
+      ),
+      'acme_inherit_base' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnBase',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Inherit\\Api\\WriterInterface_write___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_inherit_iface',
+      ),
+    ),
+    'Acme\\Inherit\\Model\\AbstractWriter_write___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_inherit_iface',
+      ),
+    ),
+    'Acme\\Inherit\\Model\\AbstractWriter_target___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_inherit_base',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => NULL,
+    'Acme\\Inherit\\Plugin\\OnBase' => NULL,
+    'Acme\\Inherit\\Plugin\\OnIface' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => 'Acme\\Inherit\\Model\\FileWriter\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Inherit\\Api\\WriterInterface' => 
+    array (
+      'acme_inherit_iface' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnIface',
+      ),
+    ),
+    'Acme\\Inherit\\Model\\AbstractWriter' => 
+    array (
+      'acme_inherit_base' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnBase',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Inherit\\Api\\WriterInterface' => 
+    array (
+      'acme_inherit_iface' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnIface',
+      ),
+    ),
+    'Acme\\Inherit\\Model\\AbstractWriter' => 
+    array (
+      'acme_inherit_iface' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnIface',
+      ),
+      'acme_inherit_base' => 
+      array (
+        'sortOrder' => 20,
+        'instance' => 'Acme\\Inherit\\Plugin\\OnBase',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Inherit\\Api\\WriterInterface_write___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_inherit_iface',
+      ),
+    ),
+    'Acme\\Inherit\\Model\\AbstractWriter_write___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_inherit_iface',
+      ),
+    ),
+    'Acme\\Inherit\\Model\\AbstractWriter_target___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_inherit_base',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => NULL,
+    'Acme\\Inherit\\Plugin\\OnBase' => NULL,
+    'Acme\\Inherit\\Plugin\\OnIface' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => 'Acme\\Inherit\\Model\\FileWriter\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Inherit\\Api\\WriterInterface' => true,
+  'Acme\\Inherit\\Model\\AbstractWriter' => true,
+  'Acme\\Inherit\\Model\\FileWriter' => true,
+  'Acme\\Inherit\\Model\\FileWriter\\Interceptor' => false,
+  'Acme\\Inherit\\Plugin\\OnBase' => false,
+  'Acme\\Inherit\\Plugin\\OnIface' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => NULL,
+    'Acme\\Inherit\\Plugin\\OnBase' => NULL,
+    'Acme\\Inherit\\Plugin\\OnIface' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => 'Acme\\Inherit\\Model\\FileWriter\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => NULL,
+    'Acme\\Inherit\\Plugin\\OnBase' => NULL,
+    'Acme\\Inherit\\Plugin\\OnIface' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Inherit\\Model\\FileWriter' => 'Acme\\Inherit\\Model\\FileWriter\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

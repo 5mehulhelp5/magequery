@@ -1,0 +1,778 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 20  findings: 7  unresolved: 0
+
+===== file: code/Acme/Gen/Api/Data/ItemExtension.php =====
+<?php
+namespace Acme\Gen\Api\Data;
+
+/**
+ * Extension class for @see \Acme\Gen\Api\Data\ItemInterface
+ */
+class ItemExtension extends \Magento\Framework\Api\AbstractSimpleObject implements ItemExtensionInterface
+{
+    /**
+     * @return string|null
+     */
+    public function getAcmeNote()
+    {
+        return $this->_get('acme_note');
+    }
+
+    /**
+     * @param string $acmeNote
+     * @return $this
+     */
+    public function setAcmeNote($acmeNote)
+    {
+        $this->setData('acme_note', $acmeNote);
+        return $this;
+    }
+}
+
+===== file: code/Acme/Gen/Api/Data/ItemExtensionInterface.php =====
+<?php
+namespace Acme\Gen\Api\Data;
+
+/**
+ * ExtensionInterface class for @see \Acme\Gen\Api\Data\ItemInterface
+ */
+interface ItemExtensionInterface extends \Magento\Framework\Api\ExtensionAttributesInterface
+{
+    /**
+     * @return string|null
+     */
+    public function getAcmeNote();
+
+    /**
+     * @param string $acmeNote
+     * @return $this
+     */
+    public function setAcmeNote($acmeNote);
+}
+
+===== file: code/Acme/Gen/Api/Data/ItemExtensionInterfaceFactory.php =====
+<?php
+namespace Acme\Gen\Api\Data;
+
+/**
+ * ExtensionInterfaceFactory class for @see \Acme\Gen\Api\Data\ItemExtension
+ */
+class ItemExtensionInterfaceFactory
+{
+    /**
+     * Object Manager instance
+     *
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $_objectManager = null;
+
+    /**
+     * Instance name to create
+     *
+     * @var string
+     */
+    protected $_instanceName = null;
+
+    /**
+     * ExtensionInterfaceFactory constructor
+     *
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param string $instanceName
+     */
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $instanceName = '\\Acme\\Gen\\Api\\Data\\ItemExtension')
+    {
+        $this->_objectManager = $objectManager;
+        $this->_instanceName = $instanceName;
+    }
+
+    /**
+     * Create class instance with specified parameters
+     *
+     * @param array $data
+     * @return \Acme\Gen\Api\Data\ItemExtension
+     */
+    public function create(array $data = [])
+    {
+        return $this->_objectManager->create($this->_instanceName, $data);
+    }
+}
+
+===== file: code/Acme/Gen/Model/Heavy/Proxy.php =====
+<?php
+namespace Acme\Gen\Model\Heavy;
+
+/**
+ * Proxy class for @see \Acme\Gen\Model\Heavy
+ */
+class Proxy extends \Acme\Gen\Model\Heavy implements \Magento\Framework\ObjectManager\NoninterceptableInterface
+{
+    /**
+     * Object Manager instance
+     *
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $_objectManager = null;
+
+    /**
+     * Proxied instance name
+     *
+     * @var string
+     */
+    protected $_instanceName = null;
+
+    /**
+     * Proxied instance
+     *
+     * @var \Acme\Gen\Model\Heavy
+     */
+    protected $_subject = null;
+
+    /**
+     * Instance shareability flag
+     *
+     * @var bool
+     */
+    protected $_isShared = null;
+
+    /**
+     * Proxy constructor
+     *
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param string $instanceName
+     * @param bool $shared
+     */
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $instanceName = '\\Acme\\Gen\\Model\\Heavy', $shared = true)
+    {
+        $this->_objectManager = $objectManager;
+        $this->_instanceName = $instanceName;
+        $this->_isShared = $shared;
+    }
+
+    /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['_subject', '_isShared', '_instanceName'];
+    }
+
+    /**
+     * Retrieve ObjectManager from global scope
+     */
+    public function __wakeup()
+    {
+        $this->_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    }
+
+    /**
+     * Clone proxied instance
+     */
+    public function __clone()
+    {
+        if ($this->_subject) {
+            $this->_subject = clone $this->_getSubject();
+        }
+    }
+
+    /**
+     * Debug proxied instance
+     */
+    public function __debugInfo()
+    {
+        return ['i' => $this->_subject];
+    }
+
+    /**
+     * Get proxied instance
+     *
+     * @return \Acme\Gen\Model\Heavy
+     */
+    protected function _getSubject()
+    {
+        if (!$this->_subject) {
+            $this->_subject = true === $this->_isShared
+                ? $this->_objectManager->get($this->_instanceName)
+                : $this->_objectManager->create($this->_instanceName);
+        }
+        return $this->_subject;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function work(int $n): array
+    {
+        return $this->_getSubject()->work($n);
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\Item' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Api\\Data\\ItemExtension',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy' => 
+    array (
+      'cfg' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Model\\Heavy',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Gen\\Model\\Uses' => 
+    array (
+      'proxy' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Model\\Heavy\\Proxy',
+      ),
+      'extFactory' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => true,
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\Item' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Api\\Data\\ItemExtension',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy' => 
+    array (
+      'cfg' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Model\\Heavy',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Gen\\Model\\Uses' => 
+    array (
+      'proxy' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Model\\Heavy\\Proxy',
+      ),
+      'extFactory' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => true,
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\Item' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Api\\Data\\ItemExtension',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy' => 
+    array (
+      'cfg' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Model\\Heavy',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Gen\\Model\\Uses' => 
+    array (
+      'proxy' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Model\\Heavy\\Proxy',
+      ),
+      'extFactory' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => true,
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\Item' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Api\\Data\\ItemExtension',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy' => 
+    array (
+      'cfg' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Model\\Heavy',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Gen\\Model\\Uses' => 
+    array (
+      'proxy' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Model\\Heavy\\Proxy',
+      ),
+      'extFactory' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => true,
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\Item' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Api\\Data\\ItemExtension',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy' => 
+    array (
+      'cfg' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Model\\Heavy',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Gen\\Model\\Uses' => 
+    array (
+      'proxy' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Model\\Heavy\\Proxy',
+      ),
+      'extFactory' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => true,
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Gen\\Api\\Data\\Item' => false,
+  'Acme\\Gen\\Api\\Data\\ItemExtension' => false,
+  'Acme\\Gen\\Api\\Data\\ItemExtensionInterface' => false,
+  'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory' => false,
+  'Acme\\Gen\\Api\\Data\\ItemInterface' => false,
+  'Acme\\Gen\\Model\\Heavy' => false,
+  'Acme\\Gen\\Model\\Heavy\\Proxy' => false,
+  'Acme\\Gen\\Model\\Uses' => false,
+  'Magento\\Framework\\Api\\AbstractSimpleObject' => false,
+  'Magento\\Framework\\Api\\ExtensionAttributesInterface' => false,
+  'Magento\\Framework\\ObjectManager\\NoninterceptableInterface' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\Item' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Api\\Data\\ItemExtension',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy' => 
+    array (
+      'cfg' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Model\\Heavy',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Gen\\Model\\Uses' => 
+    array (
+      'proxy' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Model\\Heavy\\Proxy',
+      ),
+      'extFactory' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => true,
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => true,
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\Item' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => NULL,
+    'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Api\\Data\\ItemExtension',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy' => 
+    array (
+      'cfg' => 
+      array (
+        '_v_' => '',
+      ),
+    ),
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => 
+    array (
+      'objectManager' => 
+      array (
+        '_i_' => 'Magento\\Framework\\ObjectManagerInterface',
+      ),
+      'instanceName' => 
+      array (
+        '_v_' => '\\Acme\\Gen\\Model\\Heavy',
+      ),
+      'shared' => 
+      array (
+        '_v_' => true,
+      ),
+    ),
+    'Acme\\Gen\\Model\\Uses' => 
+    array (
+      'proxy' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Model\\Heavy\\Proxy',
+      ),
+      'extFactory' => 
+      array (
+        '_i_' => 'Acme\\Gen\\Api\\Data\\ItemExtensionInterfaceFactory',
+      ),
+    ),
+  ),
+  'preferences' => 
+  array (
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+    'Acme\\Gen\\Api\\Data\\ItemExtension' => true,
+    'Acme\\Gen\\Model\\Heavy\\Proxy' => true,
+  ),
+);
+
+===== findings =====
+Acme\Gen\Api\Data\ItemExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Gen\Api\Data\ItemExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Gen\Api\Data\ItemExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Gen\Api\Data\ItemExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Gen\Api\Data\ItemExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Gen\Api\Data\ItemExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+Acme\Gen\Api\Data\ItemExtension: constructor chain leaves known set at Magento\Framework\Api\AbstractSimpleObject
+
+===== unresolved =====

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Areas\Model\Svc">
+        <plugin name="acme_areas_graph" type="Acme\Areas\Plugin\Graph" sortOrder="70"/>
+    </type>
+</config>

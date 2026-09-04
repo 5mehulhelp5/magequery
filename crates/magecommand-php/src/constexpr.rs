@@ -68,6 +68,9 @@ pub struct ParsedExpr {
 #[non_exhaustive]
 pub enum BinOp {
     Concat,
+    /// `**`. Binds tighter than `*` and is RIGHT-associative, unlike every
+    /// other binary operator here: `2 ** 3 ** 2` is 512, not 64.
+    Pow,
     Add,
     Sub,
     Mul,
@@ -242,8 +245,27 @@ impl<'a> ExprParser<'a> {
                 self.cur.bump();
                 self.parse_unary()
             }
-            _ => self.parse_primary(),
+            _ => self.parse_power(),
         }
+    }
+
+    /// `primary ('**' unary)?` — right-associative, and tighter than the unary
+    /// minus above, which is why it lives here rather than in `parse_binary`.
+    fn parse_power(&mut self) -> ConstExpr {
+        let base = self.parse_primary();
+        self.cur.skip_insignificant();
+        if self.cur.peek() == Some(b'*') && self.cur.peek_at(1) == Some(b'*') {
+            self.cur.pos += 2;
+            // The exponent is a full unary, so `2 ** -1` and `2 ** 3 ** 2`
+            // both parse the way PHP reads them.
+            let exp = self.parse_unary();
+            return ConstExpr::BinOp {
+                op: BinOp::Pow,
+                left: Box::new(base),
+                right: Box::new(exp),
+            };
+        }
+        base
     }
 
     fn parse_primary(&mut self) -> ConstExpr {
@@ -769,6 +791,18 @@ fn eval_binop(op: BinOp, l: ConstValue, r: ConstValue) -> Result<ConstValue, Eva
             BinOp::Add => Int(a.wrapping_add(b)),
             BinOp::Sub => Int(a.wrapping_sub(b)),
             BinOp::Mul => Int(a.wrapping_mul(b)),
+            BinOp::Pow => {
+                // PHP: a negative exponent makes the result a float.
+                if b < 0 {
+                    Float((a as f64).powf(b as f64))
+                } else {
+                    match u32::try_from(b).ok().and_then(|e| a.checked_pow(e)) {
+                        Some(v) => Int(v),
+                        // Overflow promotes to float, as PHP does.
+                        None => Float((a as f64).powf(b as f64)),
+                    }
+                }
+            }
             BinOp::Div => {
                 if b != 0 && a % b == 0 {
                     Int(a / b)
@@ -805,6 +839,7 @@ fn eval_float_op(op: BinOp, a: f64, b: f64) -> Result<ConstValue, EvalError> {
         BinOp::Add => Float(a + b),
         BinOp::Sub => Float(a - b),
         BinOp::Mul => Float(a * b),
+        BinOp::Pow => Float(a.powf(b)),
         BinOp::Div => Float(a / b),
         _ => return Err(EvalError::new("integer op on floats")),
     })
@@ -927,6 +962,25 @@ mod tests {
         assert_eq!(ev("'a' . 'b' . 1"), ConstValue::Str("ab1".into()));
         assert_eq!(ev("PHP_INT_MAX"), ConstValue::Int(i64::MAX));
         assert_eq!(ev("6 | 1"), ConstValue::Int(7));
+    }
+
+    /// `**` binds tighter than `*` and is the one RIGHT-associative binary
+    /// operator. Getting either wrong is silent: the expression goes opaque,
+    /// the parameter default is dropped, and an optional constructor
+    /// parameter becomes a required one.
+    #[test]
+    fn power_binds_tighter_than_mul_and_is_right_associative() {
+        assert_eq!(ev("2 ** 10"), ConstValue::Int(1024));
+        // Right-associative: 2 ** (3 ** 2) = 2 ** 9, not (2 ** 3) ** 2 = 64.
+        assert_eq!(ev("2 ** 3 ** 2"), ConstValue::Int(512));
+        // Tighter than `*`: 3 * (2 ** 3), not (3 * 2) ** 3.
+        assert_eq!(ev("3 * 2 ** 3"), ConstValue::Int(24));
+        assert_eq!(ev("-2 ** 2"), ConstValue::Int(-4));
+        // PHP promotes a negative exponent to float.
+        assert_eq!(ev("2 ** -1"), ConstValue::Float(0.5));
+        assert_eq!(ev("1.5 ** 2"), ConstValue::Float(2.25));
+        // Overflow promotes rather than wrapping.
+        assert!(matches!(ev("2 ** 200"), ConstValue::Float(_)));
     }
 
     #[test]
