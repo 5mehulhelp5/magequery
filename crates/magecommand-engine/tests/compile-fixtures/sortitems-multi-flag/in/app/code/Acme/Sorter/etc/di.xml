@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Sorter\Model\Chain">
+        <arguments>
+            <!-- Every item carries a NESTED sortOrder: the multi branch runs
+                 and the array is reordered. -->
+            <argument name="sorted" xsi:type="array">
+                <item name="first" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="class" xsi:type="string">F</item>
+                </item>
+                <item name="second" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="class" xsi:type="string">S</item>
+                </item>
+                <item name="third" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="class" xsi:type="string">T</item>
+                </item>
+            </argument>
+            <!-- Identical, plus ONE trailing item with no nested sortOrder.
+                 isMultiSortOrder ASSIGNS (rather than or-s) inside its inner
+                 walk, so only the last inner element decides — and the whole
+                 array comes out UNSORTED. -->
+            <argument name="unsorted" xsi:type="array">
+                <item name="first" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="class" xsi:type="string">F</item>
+                </item>
+                <item name="second" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="class" xsi:type="string">S</item>
+                </item>
+                <item name="third" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="class" xsi:type="string">T</item>
+                </item>
+                <item name="zlast" xsi:type="array">
+                    <item name="class" xsi:type="string">Z</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

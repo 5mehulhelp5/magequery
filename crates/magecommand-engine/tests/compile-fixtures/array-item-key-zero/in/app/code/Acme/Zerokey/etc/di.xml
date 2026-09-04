@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Zerokey\Model\Holder">
+        <arguments>
+            <!-- A key of "0" is FALSY, so Config/Dom.php:318 appends no
+                 [@name='0'] predicate and the merge XPath degenerates to the
+                 first sibling item. With exactly one pre-existing sibling this
+                 is silent mutation; with two it is a hard compile failure. One
+                 sibling here, deliberately. -->
+            <argument name="cfg" xsi:type="array">
+                <item name="alpha" xsi:type="string">A</item>
+            </argument>
+            <argument name="other" xsi:type="array">
+                <item name="0" xsi:type="string">zero</item>
+                <item name="-1" xsi:type="string">neg</item>
+                <item name="007" xsi:type="string">padded</item>
+                <item name="12" xsi:type="string">twelve</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

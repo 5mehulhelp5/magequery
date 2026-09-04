@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Vmerge\Model\Logger">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Acme\Vmerge\Model\Handler\System</item>
+                <item name="debug" xsi:type="object">Acme\Vmerge\Model\Handler\Debug</item>
+                <item name="syslog" xsi:type="object">Acme\Vmerge\Model\Handler\Syslog</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Declares ONE handler. array_replace_recursive means it INHERITS the
+         other two and keeps the parent's key order — it does not override the
+         array. This is Magento\Cron\Model\VirtualLogger's exact shape. -->
+    <virtualType name="AcmeVmergeVirtualLogger" type="Acme\Vmerge\Model\Logger">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Acme\Vmerge\Model\Handler\Cron</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>
