@@ -432,7 +432,13 @@ mod tests {
     fn plugin_list_key_reorder_is_reordered_not_changed_when_lenient() {
         let archive = tempfile::tempdir().unwrap();
         let output = tempfile::tempdir().unwrap();
-        let name = "metadata/frontend|global|primary|plugin-list.php";
+        // Real cache files join their scopes with `|`
+        // (`frontend|global|primary|plugin-list.php`), which Windows will not
+        // put in a filename — writing one here failed CI with
+        // ERROR_INVALID_NAME. Detection keys on the `plugin-list.php` suffix,
+        // so a `|`-free name exercises exactly the same path and keeps this
+        // test running on every platform.
+        let name = "metadata/frontend-global-primary-plugin-list.php";
         write(archive.path(), name, &plugin_list(&["ArrayAccess", "Countable", "Iterator", "Traversable"]));
         write(output.path(), name, &plugin_list(&["ArrayAccess", "Countable", "Iterator", "IteratorAggregate", "Traversable"]));
 
