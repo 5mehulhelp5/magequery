@@ -16,6 +16,17 @@ namespace Acme\Builtin\Model;
  * this header claimed the fixture did not cover the canonicalisation bug at
  * all. It does — just in a different file, and only visible against an install
  * where the framework supplies the ancestors.
+ *
+ * What this fixture CANNOT show, because its golden is computed with no
+ * framework present: against a real install, `Traversable` ends up in a
+ * different POSITION in the `_inherited` section of
+ * frontend|global|primary|plugin-list.php. Magento appends it as a sibling in
+ * the subject's own parent list (class_implements is transitive and flat); we
+ * reach it later by another route. That section is consumed only by
+ * isset/array_key_exists/indexed lookup (PluginList.php:174,191), so the
+ * position has no runtime effect — but `di verify` is byte-exact, so a store
+ * containing a miscased built-in would show a diff there. A clean 302-module
+ * install is 16/16 identical, so nothing in the reference install reaches it.
  */
 class Bag implements \arrayaccess, \Countable, \ITERATOR
 {

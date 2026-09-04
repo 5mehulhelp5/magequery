@@ -2139,15 +2139,38 @@ fn compare(
     // Method-order-only differences: behaviorally identical, so grouped with the
     // known/expected divergences rather than the signal above.
     if !report.reordered.is_empty() {
-        println!(
-            "\n  ▸ Interceptor method order (PHP-version reflection order) ({} file(s))",
-            report.reordered.len()
-        );
-        let explanation = "Same method set, byte-identical bodies, different order. PHP's \
-            getMethods() order — which the interceptor generator follows — differs across PHP \
-            versions (8.4 vs 8.5) for trait-using classes. Method order in a PHP class is \
-            behaviorally irrelevant, so these are equivalent. Use --strict-ordering to treat \
-            them as `changed`.";
+        // Two shapes land here, so name whichever is actually present rather
+        // than describing interceptors at a plugin-list file.
+        let any_plugin_list = report
+            .reordered
+            .iter()
+            .any(|f| f.ends_with("plugin-list.php"));
+        let any_class = report
+            .reordered
+            .iter()
+            .any(|f| !f.ends_with("plugin-list.php"));
+        let heading = match (any_class, any_plugin_list) {
+            (true, false) => "Interceptor method order (PHP-version reflection order)",
+            (false, true) => "Plugin-list key order (lookup maps, order carries no meaning)",
+            _ => "Ordering-only differences (method order, plugin-list key order)",
+        };
+        println!("\n  ▸ {heading} ({} file(s))", report.reordered.len());
+        let explanation = match (any_class, any_plugin_list) {
+            (false, true) => "Same entries, byte-identical values, different key order. The \
+                three sections of a plugin-list cache are `_data`, `_inherited` and \
+                `_processed`, and PluginList only ever reads them by key — isset, \
+                array_key_exists, [$type][$code]. None is iterated, so PHP array key order is \
+                not observable. Use --strict-ordering to treat them as `changed`.",
+            (true, false) => "Same method set, byte-identical bodies, different order. PHP's \
+                getMethods() order — which the interceptor generator follows — differs across \
+                PHP versions (8.4 vs 8.5) for trait-using classes. Method order in a PHP class \
+                is behaviorally irrelevant, so these are equivalent. Use --strict-ordering to \
+                treat them as `changed`.",
+            _ => "Same content, different order: generated-class method order (a PHP \
+                reflection-order artifact) or plugin-list key order (a lookup map, never \
+                iterated). Neither is observable at runtime. Use --strict-ordering to treat \
+                them as `changed`.",
+        };
         for line in wrap_indent(explanation, "    ", 92) {
             println!("{line}");
         }
@@ -2179,11 +2202,13 @@ fn compare(
         }
     }
 
-    // Verdict. Method-order-only differences (`reordered`) are behaviorally
-    // benign, so they never count as unexplained but are surfaced for honesty.
+    // Verdict. Ordering-only differences (`reordered`) are behaviorally benign,
+    // so they never count as unexplained but are surfaced for honesty. They
+    // cover two shapes — generated-class method order and plugin-list key
+    // order — so the note stays neutral rather than naming the wrong one.
     let reordered = report.reordered.len();
     let reordered_note = if reordered > 0 {
-        format!(", {reordered} method-order")
+        format!(", {reordered} ordering-only")
     } else {
         String::new()
     };

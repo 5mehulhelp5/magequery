@@ -150,12 +150,116 @@ fn same_content(a: &Path, b: &Path) -> Result<bool> {
 fn same_modulo_ordering(a: &Path, b: &Path) -> Result<bool> {
     let bytes_a = fs::read(a).map_err(|e| Error::io(a, e))?;
     let bytes_b = fs::read(b).map_err(|e| Error::io(b, e))?;
+    // A plugin-list cache is a different shape from a generated class, and its
+    // top-level sections are lookup maps rather than ordered sequences.
+    let is_plugin_list = a
+        .file_name()
+        .and_then(|n| n.to_str())
+        .is_some_and(|n| n.ends_with("plugin-list.php"));
+    if is_plugin_list {
+        return Ok(
+            match (canonical_map_order(&bytes_a), canonical_map_order(&bytes_b)) {
+                (Some(ca), Some(cb)) => ca == cb,
+                _ => false,
+            },
+        );
+    }
     Ok(match (canonical_method_order(&bytes_a), canonical_method_order(&bytes_b)) {
         (Some(ca), Some(cb)) => ca == cb,
         // A file that is not a recognizable interceptor or proxy never matches
         // modulo ordering — genuine content changes are never masked.
         _ => false,
     })
+}
+
+/// Canonicalize a `var_export`-shaped plugin-list cache by sorting the entries
+/// within each top-level section. `None` for anything not of that shape, so
+/// the caller falls back to strict bytes.
+///
+/// The three sections are `_data`, `_inherited` and `_processed`
+/// (`PluginList.php:227`), and every read of them is a keyed lookup —
+/// `isset($this->_inherited[$type])`, `array_key_exists`, `[$type][$code]`
+/// (`PluginList.php:174,191`). None is ever iterated, so PHP array key order
+/// carries no meaning and two files that differ only in it behave identically.
+///
+/// Entries are sorted as whole TEXT BLOCKS, key and value together, so the
+/// canonical form depends on the multiset of (key, value) pairs: a changed
+/// value, an added key or a removed one all defeat the match and stay
+/// `changed`. This is the same trick `canonical_method_order` plays on
+/// blank-line-separated method blocks.
+pub(crate) fn canonical_map_order(bytes: &[u8]) -> Option<Vec<u8>> {
+    let text = std::str::from_utf8(bytes).ok()?;
+    if !text.starts_with("<?php return array (") {
+        return None;
+    }
+    // An entry opens at exactly four spaces with a quoted or numeric key.
+    let opens_entry = |l: &str| {
+        l.strip_prefix("    ").is_some_and(|rest| {
+            !rest.starts_with(' ')
+                && (rest.starts_with('\'') || rest.starts_with(|c: char| c.is_ascii_digit()))
+                && rest.contains(" => ")
+        })
+    };
+    // An entry runs until its brackets balance AND it is comma-terminated:
+    // `'k' => NULL,` closes on its opening line, while `'k' => ` followed by
+    // `    array (` … `    ),` spans several — and that continuation sits at
+    // the SAME indent as the opener, so indentation alone cannot delimit it.
+    let depth_of = |l: &str| {
+        let mut d = 0i32;
+        let mut in_str = false;
+        let mut prev = '\0';
+        for c in l.chars() {
+            match c {
+                '\'' if prev != '\\' => in_str = !in_str,
+                '(' | '[' if !in_str => d += 1,
+                ')' | ']' if !in_str => d -= 1,
+                _ => {}
+            }
+            prev = c;
+        }
+        d
+    };
+    let mut out: Vec<String> = Vec::new();
+    let mut entries: Vec<Vec<String>> = Vec::new();
+    let mut open_depth = 0i32;
+    let mut in_entry = false;
+    let mut saw_section = false;
+    let flush = |entries: &mut Vec<Vec<String>>, out: &mut Vec<String>, saw: &mut bool| {
+        if !entries.is_empty() {
+            entries.sort();
+            for e in entries.drain(..) {
+                out.extend(e);
+            }
+            *saw = true;
+        }
+    };
+    for line in text.lines() {
+        if in_entry {
+            entries.last_mut().expect("entry open").push(line.to_owned());
+            open_depth += depth_of(line);
+            if open_depth <= 0 && line.trim_end().ends_with(',') {
+                in_entry = false;
+            }
+            continue;
+        }
+        if opens_entry(line) {
+            entries.push(vec![line.to_owned()]);
+            open_depth = depth_of(line);
+            in_entry = !(open_depth <= 0 && line.trim_end().ends_with(','));
+            continue;
+        }
+        flush(&mut entries, &mut out, &mut saw_section);
+        out.push(line.to_owned());
+    }
+    flush(&mut entries, &mut out, &mut saw_section);
+    // Nothing map-shaped in it — fall back to strict bytes rather than
+    // declaring two unrelated files equivalent.
+    if !saw_section {
+        return None;
+    }
+    let mut joined = out.join("\n");
+    joined.push('\n');
+    Some(joined.into_bytes())
 }
 
 /// Canonicalize a generated interceptor or proxy by sorting its blank-line
@@ -304,6 +408,52 @@ mod tests {
         s
     }
 
+    /// A plugin-list cache file whose `_inherited` section lists the same
+    /// types in a different ORDER. That section is a lookup map — PluginList
+    /// only ever reaches it by `isset`/`array_key_exists`/`[$type]`
+    /// (PluginList.php:174,191) and never iterates it — so two such files are
+    /// behaviorally identical and `di verify` should say `reordered`, not
+    /// `changed`.
+    ///
+    /// Real case: a class implementing a miscased built-in (`implements
+    /// \arrayaccess`) makes Magento append `Traversable` as a sibling of
+    /// `Iterator` while we reach it by another route, putting the same key in
+    /// a different position.
+    fn plugin_list(order: &[&str]) -> String {
+        let mut s = String::from("<?php return array (\n  0 => \n  array (\n  ),\n  1 => \n  array (\n");
+        for t in order {
+            s.push_str(&format!("    '{t}' => NULL,\n"));
+        }
+        s.push_str("  ),\n  2 => \n  array (\n  ),\n);\n");
+        s
+    }
+
+    #[test]
+    fn plugin_list_key_reorder_is_reordered_not_changed_when_lenient() {
+        let archive = tempfile::tempdir().unwrap();
+        let output = tempfile::tempdir().unwrap();
+        let name = "metadata/frontend|global|primary|plugin-list.php";
+        write(archive.path(), name, &plugin_list(&["ArrayAccess", "Countable", "Iterator", "Traversable"]));
+        write(output.path(), name, &plugin_list(&["ArrayAccess", "Countable", "Iterator", "IteratorAggregate", "Traversable"]));
+
+        // Different SET of keys is a genuine change, never masked.
+        let differing = compare_dirs(archive.path(), output.path(), false).unwrap();
+        assert_eq!(differing.changed, vec![name], "an added key must stay `changed`");
+
+        // Same set, different order → reordered, and clean.
+        write(output.path(), name, &plugin_list(&["ArrayAccess", "Countable", "Traversable", "Iterator"]));
+        let lenient = compare_dirs(archive.path(), output.path(), false).unwrap();
+        assert_eq!(lenient.reordered, vec![name]);
+        assert!(lenient.changed.is_empty());
+        assert!(lenient.is_clean());
+
+        // Strict mode still demands exact bytes.
+        let strict = compare_dirs(archive.path(), output.path(), true).unwrap();
+        assert_eq!(strict.changed, vec![name]);
+        assert!(strict.reordered.is_empty());
+        assert!(!strict.is_clean());
+    }
+
     #[test]
     fn method_reorder_is_reordered_not_changed_when_lenient() {
         let archive = tempfile::tempdir().unwrap();
@@ -398,3 +548,4 @@ mod tests {
         assert!(report.reordered.is_empty());
     }
 }
+
