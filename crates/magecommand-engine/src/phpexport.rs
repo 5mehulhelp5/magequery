@@ -144,10 +144,19 @@ fn export(value: &PhpValue, indent: usize, out: &mut String) {
         PhpValue::Str(s) => push_php_str(out, s),
         PhpValue::Int(i) => out.push_str(&i.to_string()),
         PhpValue::Float(f) => {
+            // Metadata is `var_export` output, and Magento sets
+            // `serialize_precision = 14` in app/bootstrap.php:67 before any of
+            // it runs — so a float carries 14 SIGNIFICANT digits and
+            // `0.1 + 0.2` is written `0.3`, not `0.30000000000000004`.
+            //
+            // The same 14 governs generated CODE, but via `precision`
+            // (bootstrap.php:66) and through a different renderer, and the two
+            // disagree on integral floats: code writes `256`, var_export keeps
+            // the trailing `.0`.
             if f.fract() == 0.0 && f.is_finite() && f.abs() < 1e15 {
                 out.push_str(&format!("{f:.1}"));
             } else {
-                out.push_str(&format!("{f}"));
+                out.push_str(&crate::laminas::format_g(*f, 14));
             }
         }
         PhpValue::Bool(true) => out.push_str("true"),
@@ -189,6 +198,30 @@ fn export(value: &PhpValue, indent: usize, out: &mut String) {
 
 #[cfg(test)]
 mod tests {
+    /// Magento's metadata is `var_export` output, and `app/bootstrap.php:67`
+    /// sets `ini_set('serialize_precision', 14)` before any of it runs — so a
+    /// float is written with 14 SIGNIFICANT digits, not PHP's default
+    /// round-trip precision. `0.1 + 0.2` is therefore `0.3` in a compiled
+    /// metadata file, while a bare `var_export` outside Magento would write
+    /// `0.30000000000000004`.
+    ///
+    /// Found by differential fuzzing. Note this is the same 14 as the
+    /// generated-code path but reached by a different ini setting
+    /// (`precision` there, `serialize_precision` here), and the two disagree
+    /// on integral floats: code writes `256`, metadata writes `256.0`.
+    #[test]
+    fn floats_use_magentos_serialize_precision_of_14() {
+        let f = |v: f64| to_php_file(&PhpValue::Float(v));
+        assert!(f(0.1 + 0.2).contains("0.3;"), "got {}", f(0.1 + 0.2));
+        assert!(f(1.0 / 3.0).contains("0.33333333333333;"), "got {}", f(1.0 / 3.0));
+        // Integral floats keep var_export's trailing `.0`.
+        assert!(f(256.0).contains("256.0;"), "got {}", f(256.0));
+        assert!(f(-0.0).contains("-0.0;"), "got {}", f(-0.0));
+        assert!(f(1000.0).contains("1000.0;"), "got {}", f(1000.0));
+        // A value that already needs few digits is unchanged.
+        assert!(f(1.5).contains("1.5;"), "got {}", f(1.5));
+    }
+
     use super::*;
 
     #[test]

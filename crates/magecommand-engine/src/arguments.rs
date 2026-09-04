@@ -678,6 +678,28 @@ fn const_to_cfg(value: &ConstValue) -> Cfg {
 /// deprecation that Magento's dev-mode ErrorHandler turns fatal, so the real
 /// compiler cannot even process such a class there — the shape exists only on
 /// older-PHP stores, and the 2.4.5 store 2.4.5 archive is its ground truth.
+/// True when an expression is built only from LITERALS — no reference to a
+/// named constant anywhere inside it.
+///
+/// This is the line PHP itself draws. Literal arithmetic is folded by the
+/// compiler and then coerced into the declared type, so `float $x = 2 ** 8`
+/// reflects as `256.0`; but a constant is resolved lazily (it may be defined
+/// after the function), so the declared type never reaches it and
+/// `float $x = K::I` stays int `1`. One constant anywhere taints the whole
+/// expression: `float $x = K::I + 1` is int `2`.
+fn is_literal_arithmetic(expr: &ConstExpr) -> bool {
+    match expr {
+        ConstExpr::Int(_) | ConstExpr::Float(_) | ConstExpr::Bool(_) | ConstExpr::Null => true,
+        ConstExpr::Neg(inner) => is_literal_arithmetic(inner),
+        ConstExpr::BinOp { left, right, .. } => {
+            is_literal_arithmetic(left) && is_literal_arithmetic(right)
+        }
+        // Strings, arrays, class constants, global constants, ::class — none
+        // of these ever coerces into a declared float.
+        _ => false,
+    }
+}
+
 /// An int LITERAL default on a `float`-declared parameter is a FLOAT to
 /// reflection.
 ///
@@ -694,7 +716,7 @@ fn const_to_cfg(value: &ConstValue) -> Cfg {
 /// Only a plain `float`/`?float` coerces: a union like `int|float` keeps the int,
 /// exactly as PHP does.
 fn coerce_to_declared_float(value: Cfg, ty: Option<&str>, expr: &ConstExpr) -> Cfg {
-    if !matches!(expr, ConstExpr::Int(_)) {
+    if !is_literal_arithmetic(expr) {
         return value;
     }
     let ty = ty.map(|t| t.trim().trim_start_matches('?'));
@@ -1211,6 +1233,61 @@ mod tests {
     /// where the constant is int `1` reflects as `1`, not `1.0`. Coercing the
     /// constant case too was a regression against a real store, so the literal
     /// gate is load-bearing.
+    /// Constant-folded ARITHMETIC on literals coerces too — it is only a
+    /// reference to a NAMED constant that opts out. Verified against PHP 8.4
+    /// reflection, not inferred:
+    ///
+    ///   float $x = 2 ** 8      -> 256.0   (double)
+    ///   float $x = 1 << 3      -> 8.0     (double)
+    ///   float $x = 1 + 2       -> 3.0     (double)
+    ///   float $x = -3          -> -3.0    (double)
+    ///   float $x = K::I        -> 1       (integer)
+    ///   float $x = PHP_INT_MAX -> int     (integer)
+    ///   float $x = K::I + 1    -> 2       (integer)  <- one constant taints it
+    ///   int|float $x = 7       -> 7       (integer)  <- union never coerces
+    ///
+    /// Found by differential fuzzing: `private float $q0 = 2 ** 8` came out as
+    /// `256` against Magento's `256.0`.
+    #[test]
+    fn literal_arithmetic_coerces_but_a_named_constant_does_not() {
+        let pow = ConstExpr::BinOp {
+            op: magecommand_php::constexpr::BinOp::Pow,
+            left: Box::new(ConstExpr::Int(2)),
+            right: Box::new(ConstExpr::Int(8)),
+        };
+        assert_eq!(
+            coerce_to_declared_float(Cfg::Int(256), Some("float"), &pow),
+            Cfg::Float(256.0)
+        );
+        let neg = ConstExpr::Neg(Box::new(ConstExpr::Int(3)));
+        assert_eq!(
+            coerce_to_declared_float(Cfg::Int(-3), Some("?float"), &neg),
+            Cfg::Float(-3.0)
+        );
+
+        // A named constant anywhere in the expression opts the whole thing out.
+        let konst = ConstExpr::GlobalConst("PHP_INT_MAX".into());
+        assert_eq!(
+            coerce_to_declared_float(Cfg::Int(9), Some("float"), &konst),
+            Cfg::Int(9)
+        );
+        let const_arith = ConstExpr::BinOp {
+            op: magecommand_php::constexpr::BinOp::Add,
+            left: Box::new(ConstExpr::GlobalConst("K_I".into())),
+            right: Box::new(ConstExpr::Int(1)),
+        };
+        assert_eq!(
+            coerce_to_declared_float(Cfg::Int(2), Some("float"), &const_arith),
+            Cfg::Int(2)
+        );
+
+        // A union keeps the int, exactly as PHP does.
+        assert_eq!(
+            coerce_to_declared_float(Cfg::Int(7), Some("int|float"), &ConstExpr::Int(7)),
+            Cfg::Int(7)
+        );
+    }
+
     #[test]
     fn only_literal_int_defaults_coerce_to_a_declared_float() {
         let lit = ConstExpr::Int(0);

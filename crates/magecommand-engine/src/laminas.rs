@@ -113,7 +113,7 @@ fn render_float(f: f64) -> String {
 /// C's `%.<precision>G`, which is what PHP's float-to-string does: fixed
 /// notation inside the exponent window, scientific outside it, trailing zeros
 /// trimmed either way.
-fn format_g(f: f64, precision: i32) -> String {
+pub(crate) fn format_g(f: f64, precision: i32) -> String {
     let exp = f.abs().log10().floor() as i32;
     if exp < -4 || exp >= precision {
         // Scientific. Rust writes `1.234e60`; C and PHP write `1.234E+60`.
