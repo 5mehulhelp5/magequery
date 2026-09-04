@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Tie\Model\Subject">
+        <!-- A fourth at the SAME sortOrder as alpha and bravo, declared in a
+             later module. uasort's comparator returns 0 for a tie and PHP 8
+             sorts stably, so the tie-break is insertion order: charlie(5),
+             then alpha, bravo, delta in declaration order. -->
+        <plugin name="delta" type="Acme\Tie\Plugin\Delta" sortOrder="10"/>
+    </type>
+</config>

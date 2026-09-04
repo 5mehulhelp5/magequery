@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Transitive: A -> B -> C must FLATTEN to C, because the compiled
+         config resolves only one hop. -->
+    <preference for="Acme\Pref\Api\AInterface" type="Acme\Pref\Api\BInterface"/>
+    <preference for="Acme\Pref\Api\BInterface" type="Acme\Pref\Model\C"/>
+
+    <!-- A preference whose target is a VIRTUAL TYPE (skips the class_exists
+         validation the compiler applies to every other target). -->
+    <virtualType name="AcmePrefVirtual" type="Acme\Pref\Model\C">
+        <arguments>
+            <argument name="tag" xsi:type="string">virtual</argument>
+        </arguments>
+    </virtualType>
+    <preference for="Acme\Pref\Api\DInterface" type="AcmePrefVirtual"/>
+
+    <!-- A preference whose `for` is a CONCRETE CLASS, not an interface. -->
+    <preference for="Acme\Pref\Model\Concrete" type="Acme\Pref\Model\Replacement"/>
+</config>

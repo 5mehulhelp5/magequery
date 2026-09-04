@@ -1,0 +1,361 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Ref/Model/Store/Interceptor.php =====
+<?php
+namespace Acme\Ref\Model\Store;
+
+/**
+ * Interceptor class for @see \Acme\Ref\Model\Store
+ */
+class Interceptor extends \Acme\Ref\Model\Store implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct()
+    {
+        $this->___init();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function & get(string $k)
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'get');
+        return $pluginInfo ? $this->___callPlugins('get', func_get_args(), $pluginInfo) : parent::get($k);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fill(array &$out, ?int &$n = null): bool
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'fill');
+        return $pluginInfo ? $this->___callPlugins('fill', func_get_args(), $pluginInfo) : parent::fill($out, $n);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function each(&... $rows): void
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'each');
+        $pluginInfo ? $this->___callPlugins('each', func_get_args(), $pluginInfo) : parent::each(... $rows);
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => NULL,
+    'Acme\\Ref\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 'Acme\\Ref\\Model\\Store\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => NULL,
+    'Acme\\Ref\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 'Acme\\Ref\\Model\\Store\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => NULL,
+    'Acme\\Ref\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 'Acme\\Ref\\Model\\Store\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 
+    array (
+      'acme_ref_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Ref\\Plugin\\P',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 
+    array (
+      'acme_ref_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Ref\\Plugin\\P',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Ref\\Model\\Store_get___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_ref_p',
+      ),
+    ),
+    'Acme\\Ref\\Model\\Store_fill___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_ref_p',
+      ),
+    ),
+    'Acme\\Ref\\Model\\Store_each___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_ref_p',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => NULL,
+    'Acme\\Ref\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 'Acme\\Ref\\Model\\Store\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 
+    array (
+      'acme_ref_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Ref\\Plugin\\P',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 
+    array (
+      'acme_ref_p' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Ref\\Plugin\\P',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Ref\\Model\\Store_get___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_ref_p',
+      ),
+    ),
+    'Acme\\Ref\\Model\\Store_fill___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_ref_p',
+      ),
+    ),
+    'Acme\\Ref\\Model\\Store_each___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'acme_ref_p',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => NULL,
+    'Acme\\Ref\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 'Acme\\Ref\\Model\\Store\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Ref\\Model\\Store' => true,
+  'Acme\\Ref\\Model\\Store\\Interceptor' => false,
+  'Acme\\Ref\\Plugin\\P' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => NULL,
+    'Acme\\Ref\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 'Acme\\Ref\\Model\\Store\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => NULL,
+    'Acme\\Ref\\Plugin\\P' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Ref\\Model\\Store' => 'Acme\\Ref\\Model\\Store\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

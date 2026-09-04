@@ -1,0 +1,385 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 16  findings: 0  unresolved: 0
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmePrefVirtual' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'virtual',
+      ),
+    ),
+    'Acme\\Pref\\Model\\C' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'plain',
+      ),
+    ),
+    'Acme\\Pref\\Model\\Concrete' => NULL,
+    'Acme\\Pref\\Model\\Replacement' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Pref\\Api\\AInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\BInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\DInterface' => 'AcmePrefVirtual',
+    'Acme\\Pref\\Model\\Concrete' => 'Acme\\Pref\\Model\\Replacement',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmePrefVirtual' => 'Acme\\Pref\\Model\\C',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmePrefVirtual' => true,
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmePrefVirtual' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'virtual',
+      ),
+    ),
+    'Acme\\Pref\\Model\\C' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'plain',
+      ),
+    ),
+    'Acme\\Pref\\Model\\Concrete' => NULL,
+    'Acme\\Pref\\Model\\Replacement' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Pref\\Api\\AInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\BInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\DInterface' => 'AcmePrefVirtual',
+    'Acme\\Pref\\Model\\Concrete' => 'Acme\\Pref\\Model\\Replacement',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmePrefVirtual' => 'Acme\\Pref\\Model\\C',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmePrefVirtual' => true,
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmePrefVirtual' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'virtual',
+      ),
+    ),
+    'Acme\\Pref\\Model\\C' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'plain',
+      ),
+    ),
+    'Acme\\Pref\\Model\\Concrete' => NULL,
+    'Acme\\Pref\\Model\\Replacement' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Pref\\Api\\AInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\BInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\DInterface' => 'AcmePrefVirtual',
+    'Acme\\Pref\\Model\\Concrete' => 'Acme\\Pref\\Model\\Replacement',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmePrefVirtual' => 'Acme\\Pref\\Model\\C',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmePrefVirtual' => true,
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmePrefVirtual' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'virtual',
+      ),
+    ),
+    'Acme\\Pref\\Model\\C' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'plain',
+      ),
+    ),
+    'Acme\\Pref\\Model\\Concrete' => NULL,
+    'Acme\\Pref\\Model\\Replacement' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Pref\\Api\\AInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\BInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\DInterface' => 'AcmePrefVirtual',
+    'Acme\\Pref\\Model\\Concrete' => 'Acme\\Pref\\Model\\Replacement',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmePrefVirtual' => 'Acme\\Pref\\Model\\C',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmePrefVirtual' => true,
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+    'Acme\\Pref\\Api\\AInterface' => NULL,
+    'Acme\\Pref\\Api\\BInterface' => NULL,
+    'Acme\\Pref\\Api\\DInterface' => NULL,
+    'Acme\\Pref\\Model\\C' => NULL,
+    'AcmePrefVirtual' => NULL,
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmePrefVirtual' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'virtual',
+      ),
+    ),
+    'Acme\\Pref\\Model\\C' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'plain',
+      ),
+    ),
+    'Acme\\Pref\\Model\\Concrete' => NULL,
+    'Acme\\Pref\\Model\\Replacement' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Pref\\Api\\AInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\BInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\DInterface' => 'AcmePrefVirtual',
+    'Acme\\Pref\\Model\\Concrete' => 'Acme\\Pref\\Model\\Replacement',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmePrefVirtual' => 'Acme\\Pref\\Model\\C',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmePrefVirtual' => true,
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'AcmePrefVirtual' => false,
+  'Acme\\Pref\\Api\\AInterface' => false,
+  'Acme\\Pref\\Api\\BInterface' => false,
+  'Acme\\Pref\\Api\\DInterface' => false,
+  'Acme\\Pref\\Model\\C' => false,
+  'Acme\\Pref\\Model\\Concrete' => false,
+  'Acme\\Pref\\Model\\Replacement' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmePrefVirtual' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'virtual',
+      ),
+    ),
+    'Acme\\Pref\\Model\\C' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'plain',
+      ),
+    ),
+    'Acme\\Pref\\Model\\Concrete' => NULL,
+    'Acme\\Pref\\Model\\Replacement' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Pref\\Api\\AInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\BInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\DInterface' => 'AcmePrefVirtual',
+    'Acme\\Pref\\Model\\Concrete' => 'Acme\\Pref\\Model\\Replacement',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmePrefVirtual' => 'Acme\\Pref\\Model\\C',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmePrefVirtual' => true,
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'AcmePrefVirtual' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'virtual',
+      ),
+    ),
+    'Acme\\Pref\\Model\\C' => 
+    array (
+      'tag' => 
+      array (
+        '_v_' => 'plain',
+      ),
+    ),
+    'Acme\\Pref\\Model\\Concrete' => NULL,
+    'Acme\\Pref\\Model\\Replacement' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Pref\\Api\\AInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\BInterface' => 'Acme\\Pref\\Model\\C',
+    'Acme\\Pref\\Api\\DInterface' => 'AcmePrefVirtual',
+    'Acme\\Pref\\Model\\Concrete' => 'Acme\\Pref\\Model\\Replacement',
+  ),
+  'instanceTypes' => 
+  array (
+    'AcmePrefVirtual' => 'Acme\\Pref\\Model\\C',
+  ),
+  'nonLazyTypes' => 
+  array (
+    'AcmePrefVirtual' => true,
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

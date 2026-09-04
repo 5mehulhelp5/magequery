@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Dis\Model\Target">
+        <!-- (a) disable one someone else declared: array_replace_recursive
+             keeps its instance and sortOrder, and it stays in `inherited`
+             while being dropped from the processed chain. -->
+        <plugin name="p_off" disabled="true"/>
+        <!-- (b) a GHOST: disabled, and no module anywhere gives it a type.
+             filterPlugins drops it before inheritance, so it appears in
+             neither inherited nor processed — silently. -->
+        <plugin name="p_ghost" disabled="true"/>
+        <!-- (c) A disabled plugin whose CLASS DOES NOT EXIST is NOT safe at
+             compile time, though it is at runtime. PluginListGenerator's
+             class_exists check sits after the disabled `continue`, but
+             setup:di:compile never gets there: InterceptionConfigurationBuilder
+             calls Interception/Definition/Runtime::getMethodList on every
+             plugin class it sees, and get_class_methods() on a missing class is
+             a hard error that aborts the whole compile. Verified — including it
+             here made this fixture ungroundable, so it is described rather than
+             exercised. -->
+    </type>
+</config>

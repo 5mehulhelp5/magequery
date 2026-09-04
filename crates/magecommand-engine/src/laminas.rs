@@ -97,12 +97,44 @@ fn escape_single_quoted(s: &str) -> String {
 
 /// PHP's `(string)$float`. Integers-as-floats print without a decimal point.
 fn render_float(f: f64) -> String {
-    if f.fract() == 0.0 && f.abs() < 1e15 {
-        format!("{}", f as i64)
-    } else {
-        let s = format!("{f}");
-        s
+    // PHP renders a float with `precision` SIGNIFICANT digits (default 14) —
+    // i.e. %.14G — not Rust's shortest round-trip. `0.1 + 0.2` therefore
+    // prints as `0.3`, not `0.30000000000000004`.
+    if f == 0.0 {
+        // -0.0 keeps its sign; `f as i64` silently drops it.
+        return if f.is_sign_negative() { "-0".to_owned() } else { "0".to_owned() };
     }
+    if f.fract() == 0.0 && f.abs() < 1e15 {
+        return format!("{}", f as i64);
+    }
+    format_g(f, 14)
+}
+
+/// C's `%.<precision>G`, which is what PHP's float-to-string does: fixed
+/// notation inside the exponent window, scientific outside it, trailing zeros
+/// trimmed either way.
+fn format_g(f: f64, precision: i32) -> String {
+    let exp = f.abs().log10().floor() as i32;
+    if exp < -4 || exp >= precision {
+        // Scientific. Rust writes `1.234e60`; C and PHP write `1.234E+60`.
+        let mantissa_dp = (precision - 1).max(0) as usize;
+        let raw = format!("{:.*e}", mantissa_dp, f);
+        let (mantissa, e) = raw.split_once('e').unwrap_or((raw.as_str(), "0"));
+        let mantissa = trim_zeros(mantissa);
+        let exp_num: i32 = e.parse().unwrap_or(0);
+        format!("{mantissa}E{}{}", if exp_num < 0 { "-" } else { "+" }, exp_num.abs())
+    } else {
+        let dp = (precision - 1 - exp).max(0) as usize;
+        trim_zeros(&format!("{:.*}", dp, f)).to_owned()
+    }
+}
+
+/// Drop trailing zeros in a fixed-notation number, and a bare trailing dot.
+fn trim_zeros(s: &str) -> &str {
+    if !s.contains('.') {
+        return s;
+    }
+    s.trim_end_matches('0').trim_end_matches('.')
 }
 
 // ---- type rendering (Laminas TypeGenerator) --------------------------------
@@ -118,11 +150,16 @@ pub fn render_type(type_str: &str) -> String {
         None => (false, type_str),
     };
     if trimmed.contains('&') && !trimmed.contains('|') {
-        // Pure intersection — members are class types, order preserved.
-        let members: Vec<String> = trimmed
+        // Pure intersection. Laminas SORTS the members (IntersectionType
+        // sorts before generating), so declaration order is not preserved:
+        // `Zebra&Alpha` in source renders as `\Alpha&\Zebra`. The framework's
+        // own generator fixture shows the same, turning
+        // `ReflectionIntersectionTypeSample&Menu` into `\…\Menu&\…\Sample`.
+        let mut members: Vec<String> = trimmed
             .split('&')
             .map(|m| atomic_fqcn(m.trim_matches(['(', ')'])))
             .collect();
+        members.sort();
         let body = members.join("&");
         return if nullable { format!("?{body}") } else { body };
     }
@@ -133,8 +170,9 @@ pub fn render_type(type_str: &str) -> String {
                 let m = m.trim_matches(['(', ')']);
                 if m.contains('&') {
                     // An intersection nested in a union sorts before atomics.
-                    let inner: Vec<String> =
+                    let mut inner: Vec<String> =
                         m.split('&').map(|x| atomic_fqcn(x.trim())).collect();
+                    inner.sort();
                     AtomicSort { sort_index: -1, name: inner.join("&"), sort_key: inner.join("&") }
                 } else {
                     atomic_sort(m)

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Init\Model\Paths">
+        <arguments>
+            <!-- Top level: a missing deployment-config key falls back to the
+                 PARAMETER's default (_d_). -->
+            <argument name="dir" xsi:type="init_parameter">Acme\Init\Model\Paths::DIR_KEY</argument>
+            <!-- Inside an array: the fallback is null, not the default. -->
+            <argument name="nested" xsi:type="array">
+                <item name="inner" xsi:type="init_parameter">Acme\Init\Model\Paths::DIR_KEY</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Tie\Model\Subject">
+        <plugin name="alpha" type="Acme\Tie\Plugin\Alpha" sortOrder="10"/>
+        <plugin name="bravo" type="Acme\Tie\Plugin\Bravo" sortOrder="10"/>
+        <plugin name="charlie" type="Acme\Tie\Plugin\Charlie" sortOrder="5"/>
+    </type>
+</config>

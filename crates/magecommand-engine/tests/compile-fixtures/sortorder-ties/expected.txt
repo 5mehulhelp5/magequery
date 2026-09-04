@@ -1,0 +1,405 @@
+# magecommand-engine compile fixture — the expected output of compute_outputs()
+# over `in/`, byte for byte. Everything below is generated; edit `in/` instead.
+# Re-bless: MAGECOMMAND_COMPILE_BLESS=1 cargo test -p magecommand-engine --test compile
+# files: 17  findings: 0  unresolved: 0
+
+===== file: code/Acme/Tie/Model/Subject/Interceptor.php =====
+<?php
+namespace Acme\Tie\Model\Subject;
+
+/**
+ * Interceptor class for @see \Acme\Tie\Model\Subject
+ */
+class Interceptor extends \Acme\Tie\Model\Subject implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct()
+    {
+        $this->___init();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function go(string $s): string
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'go');
+        return $pluginInfo ? $this->___callPlugins('go', func_get_args(), $pluginInfo) : parent::go($s);
+    }
+}
+
+===== file: metadata/adminhtml.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => NULL,
+    'Acme\\Tie\\Plugin\\Alpha' => NULL,
+    'Acme\\Tie\\Plugin\\Bravo' => NULL,
+    'Acme\\Tie\\Plugin\\Charlie' => NULL,
+    'Acme\\Tie\\Plugin\\Delta' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 'Acme\\Tie\\Model\\Subject\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/adminhtml|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/app_action_list.php =====
+<?php return array (
+);
+
+===== file: metadata/crontab.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => NULL,
+    'Acme\\Tie\\Plugin\\Alpha' => NULL,
+    'Acme\\Tie\\Plugin\\Bravo' => NULL,
+    'Acme\\Tie\\Plugin\\Charlie' => NULL,
+    'Acme\\Tie\\Plugin\\Delta' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 'Acme\\Tie\\Model\\Subject\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/crontab|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => NULL,
+    'Acme\\Tie\\Plugin\\Alpha' => NULL,
+    'Acme\\Tie\\Plugin\\Bravo' => NULL,
+    'Acme\\Tie\\Plugin\\Charlie' => NULL,
+    'Acme\\Tie\\Plugin\\Delta' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 'Acme\\Tie\\Model\\Subject\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/frontend|global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 
+    array (
+      'alpha' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Alpha',
+      ),
+      'bravo' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Bravo',
+      ),
+      'charlie' => 
+      array (
+        'sortOrder' => 5,
+        'instance' => 'Acme\\Tie\\Plugin\\Charlie',
+      ),
+      'delta' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Delta',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 
+    array (
+      'charlie' => 
+      array (
+        'sortOrder' => 5,
+        'instance' => 'Acme\\Tie\\Plugin\\Charlie',
+      ),
+      'alpha' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Alpha',
+      ),
+      'bravo' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Bravo',
+      ),
+      'delta' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Delta',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Tie\\Model\\Subject_go___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'charlie',
+        1 => 'alpha',
+        2 => 'bravo',
+        3 => 'delta',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => NULL,
+    'Acme\\Tie\\Plugin\\Alpha' => NULL,
+    'Acme\\Tie\\Plugin\\Bravo' => NULL,
+    'Acme\\Tie\\Plugin\\Charlie' => NULL,
+    'Acme\\Tie\\Plugin\\Delta' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 'Acme\\Tie\\Model\\Subject\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/global|graphql|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 
+    array (
+      'alpha' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Alpha',
+      ),
+      'bravo' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Bravo',
+      ),
+      'charlie' => 
+      array (
+        'sortOrder' => 5,
+        'instance' => 'Acme\\Tie\\Plugin\\Charlie',
+      ),
+      'delta' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Delta',
+      ),
+    ),
+  ),
+  1 => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 
+    array (
+      'charlie' => 
+      array (
+        'sortOrder' => 5,
+        'instance' => 'Acme\\Tie\\Plugin\\Charlie',
+      ),
+      'alpha' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Alpha',
+      ),
+      'bravo' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Bravo',
+      ),
+      'delta' => 
+      array (
+        'sortOrder' => 10,
+        'instance' => 'Acme\\Tie\\Plugin\\Delta',
+      ),
+    ),
+  ),
+  2 => 
+  array (
+    'Acme\\Tie\\Model\\Subject_go___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'charlie',
+        1 => 'alpha',
+        2 => 'bravo',
+        3 => 'delta',
+      ),
+    ),
+  ),
+);
+
+===== file: metadata/global|primary|webapi_rest|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/global|primary|webapi_soap|plugin-list.php =====
+<?php return array (
+  0 => 
+  array (
+  ),
+  1 => 
+  array (
+  ),
+  2 => 
+  array (
+  ),
+);
+
+===== file: metadata/graphql.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => NULL,
+    'Acme\\Tie\\Plugin\\Alpha' => NULL,
+    'Acme\\Tie\\Plugin\\Bravo' => NULL,
+    'Acme\\Tie\\Plugin\\Charlie' => NULL,
+    'Acme\\Tie\\Plugin\\Delta' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 'Acme\\Tie\\Model\\Subject\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/interception.php =====
+<?php return array (
+  'Acme\\Tie\\Model\\Subject' => true,
+  'Acme\\Tie\\Model\\Subject\\Interceptor' => false,
+  'Acme\\Tie\\Plugin\\Alpha' => false,
+  'Acme\\Tie\\Plugin\\Bravo' => false,
+  'Acme\\Tie\\Plugin\\Charlie' => false,
+  'Acme\\Tie\\Plugin\\Delta' => false,
+);
+
+===== file: metadata/webapi_rest.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => NULL,
+    'Acme\\Tie\\Plugin\\Alpha' => NULL,
+    'Acme\\Tie\\Plugin\\Bravo' => NULL,
+    'Acme\\Tie\\Plugin\\Charlie' => NULL,
+    'Acme\\Tie\\Plugin\\Delta' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 'Acme\\Tie\\Model\\Subject\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== file: metadata/webapi_soap.php =====
+<?php return array (
+  'arguments' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => NULL,
+    'Acme\\Tie\\Plugin\\Alpha' => NULL,
+    'Acme\\Tie\\Plugin\\Bravo' => NULL,
+    'Acme\\Tie\\Plugin\\Charlie' => NULL,
+    'Acme\\Tie\\Plugin\\Delta' => NULL,
+  ),
+  'preferences' => 
+  array (
+    'Acme\\Tie\\Model\\Subject' => 'Acme\\Tie\\Model\\Subject\\Interceptor',
+  ),
+  'instanceTypes' => 
+  array (
+  ),
+  'nonLazyTypes' => 
+  array (
+  ),
+);
+
+===== findings =====
+
+===== unresolved =====

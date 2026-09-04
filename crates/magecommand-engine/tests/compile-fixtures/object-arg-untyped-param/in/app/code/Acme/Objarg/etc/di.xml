@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Acme\Objarg\Model\Consumer">
+        <arguments>
+            <!-- The parameter is CLASS-typed: becomes a real instance. -->
+            <argument name="typed" xsi:type="object">Acme\Objarg\Model\Dep</argument>
+            <!-- Untyped and string-typed parameters: the resolver keys off the
+                 PARAMETER's type, so these never become objects. -->
+            <argument name="untypedParam" xsi:type="object">Acme\Objarg\Model\Dep</argument>
+            <argument name="stringParam" xsi:type="object">Acme\Objarg\Model\Dep</argument>
+            <!-- A variadic: resolution returns before instantiation. -->
+            <argument name="rest" xsi:type="array">
+                <item name="one" xsi:type="object">Acme\Objarg\Model\Dep</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
