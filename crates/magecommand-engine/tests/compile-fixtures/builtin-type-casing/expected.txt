@@ -131,9 +131,9 @@ class Interceptor extends \Acme\Builtin\Model\Bag implements \Magento\Framework\
   ),
   1 => 
   array (
-    'arrayaccess' => NULL,
+    'ArrayAccess' => NULL,
     'Countable' => NULL,
-    'ITERATOR' => NULL,
+    'Iterator' => NULL,
     'Acme\\Builtin\\Model\\Bag' => 
     array (
       'acme_builtin_watch' => 
@@ -202,9 +202,9 @@ class Interceptor extends \Acme\Builtin\Model\Bag implements \Magento\Framework\
   ),
   1 => 
   array (
-    'arrayaccess' => NULL,
+    'ArrayAccess' => NULL,
     'Countable' => NULL,
-    'ITERATOR' => NULL,
+    'Iterator' => NULL,
     'Acme\\Builtin\\Model\\Bag' => 
     array (
       'acme_builtin_watch' => 

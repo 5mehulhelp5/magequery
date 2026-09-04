@@ -610,7 +610,18 @@ enum ProcessedValue {
 
 impl Inherit<'_> {
     fn inherit(&mut self, type_name: &str) -> Option<Vec<(String, Entry)>> {
-        let key = type_name.trim_start_matches('\\').to_owned();
+        // Canonical case, exactly as `interception::has_plugins` does. PHP
+        // class names are case-insensitive, so source may spell a built-in any
+        // way it likes (`implements \arrayaccess, \ITERATOR`), and reflection
+        // hands the real compiler back the engine's own spelling. Keying on the
+        // use-site spelling instead leaked `arrayaccess` and `ITERATOR` into the
+        // plugin-list files as keys of their own, and — because
+        // `internal_relations` is a case-sensitive lookup — lost the built-in's
+        // ancestors with them, dropping `Traversable`. Verified against a real
+        // compile: these three lines were the only divergence left in
+        // `global|primary|plugin-list.php`.
+        let trimmed = type_name.trim_start_matches('\\');
+        let key = self.defs.canonical_case(trimmed).unwrap_or(trimmed).to_owned();
         if let Some(&i) = self.inherited_index.get(&key) {
             // CACHE HIT. Magento's `inheritPlugins` returns `$inherited[$type]`
             // verbatim here — the STORED list, which KEEPS disabled entries.

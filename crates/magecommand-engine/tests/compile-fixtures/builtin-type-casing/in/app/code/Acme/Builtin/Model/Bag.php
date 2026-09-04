@@ -3,13 +3,19 @@
 namespace Acme\Builtin\Model;
 
 /**
- * Built-ins spelled in three casings. PINS: they produce NO interception
- * entries at all — `relations_of` drops relations with no scanned record, so
- * a built-in never reaches the map from a source `implements` or `extends`.
+ * Built-ins spelled in three casings.
  *
- * This is NOT a regression test for the duplicate-key bug (#100, canonicalize
- * built-in type names). That one needed a vendor shape this fixture does not
- * reproduce: emptying BUILTIN_TYPES leaves every golden here unchanged.
+ * PHP class names are case-insensitive, so source may write a built-in any way
+ * it likes; the real compiler reflects the type and gets the engine's own
+ * spelling back. Keying on the use-site spelling instead leaks `arrayaccess`
+ * and `ITERATOR` into the plugin-list files as keys of their own — which is
+ * what this pins, in `*plugin-list.php` rather than in `interception.php`.
+ *
+ * The built-ins produce no `interception.php` entries at all (relations_of
+ * drops relations with no scanned record), which is why an earlier version of
+ * this header claimed the fixture did not cover the canonicalisation bug at
+ * all. It does — just in a different file, and only visible against an install
+ * where the framework supplies the ancestors.
  */
 class Bag implements \arrayaccess, \Countable, \ITERATOR
 {
